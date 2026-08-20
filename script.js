@@ -5,7 +5,8 @@ let allProducts = [];
 // २. पेज लोड झाल्यावर डेटाबेसमधून प्रॉडक्ट्स आणणे
 window.onload = async () => {
     try {
-        const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/products");
+       // cache: "no-store" मुळे ब्राउझर जुना डेटा वापरणार नाही, दरवेळी नवीन प्रॉडक्ट्स आणेल
+const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/products", { cache: "no-store" });
         const dbProducts = await response.json();
 
         // डेटाबेसमधून आलेला डेटा तुझ्या जुन्या डिझाईनच्या फॉरमॅटमध्ये सेट करणे
