@@ -3,67 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Kokan Varsa</title>
+    <title>Kokan Varsa - Advanced Admin</title>
+    <!-- FontAwesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 500px; margin-bottom: 20px; }
-        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .btn-orange { background: #d35400; color: white; font-weight: bold; cursor: pointer; border: none; }
-        .btn-delete { background: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
-        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        :root { --primary: #d35400; --bg: #f4f7f6; --text: #333; --white: #fff; }
+        body { font-family: 'Noto Sans Marathi', sans-serif; background: var(--bg); margin: 0; padding: 0; display: flex; color: var(--text); }
+        
+        /* 1. Sidebar Design */
+        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; box-sizing: border-box; }
+        .sidebar h2 { color: var(--primary); font-size: 24px; text-align: center; border-bottom: 1px solid #34495e; padding-bottom: 15px; margin-top: 10px; }
+        .sidebar p { text-align: center; font-size: 14px; color: #bdc3c7; margin-bottom: 30px; }
+        .nav-item { padding: 12px 15px; margin-bottom: 10px; background: #34495e; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .nav-item:hover { background: var(--primary); }
+        
+        /* 2. Main Content Area */
+        .main { margin-left: 250px; padding: 30px; width: calc(100% - 250px); box-sizing: border-box; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-size: 28px; }
+        
+        /* 3. Insights / Stats Cards */
+        .insights { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { background: var(--white); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); flex: 1; display: flex; align-items: center; gap: 20px; border-left: 5px solid var(--primary); }
+        .card i { font-size: 32px; color: var(--primary); background: #fbeee6; padding: 15px; border-radius: 50%; }
+        .card-info h3 { margin: 0; font-size: 26px; }
+        .card-info p { margin: 5px 0 0; color: #777; font-size: 14px; font-weight: 600; }
+        
+        /* 4. Grid Layout for Form & Table */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+        .box { background: var(--white); padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .box-title { margin-top: 0; color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; font-size: 18px; }
+        
+        /* Form Elements */
+        label { font-size: 13px; font-weight: 600; color: #555; }
+        input, select, button { width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        .btn-orange { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
+        .btn-orange:hover { background: #b04600; }
+        
+        /* Table Elements */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #555; font-weight: 600; text-transform: uppercase; font-size: 13px; }
+        td { font-size: 14px; vertical-align: middle; }
+        td img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .unit-badge { background: #e8f4f8; color: #2980b9; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .btn-delete { background: #e74c3c; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; transition: 0.3s; width: auto; margin: 0; }
+        .btn-delete:hover { background: #c0392b; box-shadow: 0 2px 5px rgba(231,76,60,0.4); }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h2 style="color: #d35400; text-align: center;">नवीन प्रॉडक्ट टाका</h2>
-        <form id="addProductForm">
-            <input type="text" id="name" required placeholder="प्रॉडक्टचे नाव (उदा. मालवणी मसाला)">
-            <input type="number" id="price" required placeholder="किंमत (₹)">
-            
-            <select id="unit">
-                <option value="१ किलो">१ किलो</option>
-                <option value="५०० ग्रॅम">५०० ग्रॅम</option>
-                <option value="२५० ग्रॅम">२५० ग्रॅम</option>
-                <option value="१ लिटर">१ लिटर</option>
-                <option value="१ डझन">१ डझन</option>
-                <option value="१ नग">१ नग</option>
-            </select>
-
-            <input type="text" id="image_url" required placeholder="फोटोची लिंक (उदा. masala.jpg)">
-            <button type="submit" class="btn-orange">सेव्ह करा</button>
-        </form>
-        <p id="statusMsg" style="text-align: center;"></p>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>कोकण वारसा</h2>
+        <p>स्वागत आहे, आदित्य! 👨‍💻</p>
+        
+        <div style="margin-top: 40px;">
+            <div class="nav-item"><i class="fas fa-chart-pie" style="margin-right: 10px;"></i> डॅशबोर्ड</div>
+            <div class="nav-item" style="background: var(--primary);"><i class="fas fa-box-open" style="margin-right: 10px;"></i> उत्पादने</div>
+        </div>
     </div>
 
-    <div class="box">
-        <h3 style="text-align: center;">दुकानातील प्रॉडक्ट्स</h3>
-        <div id="productListArea">लोड होत आहे... ⏳</div>
+    <!-- Main Content -->
+    <div class="main">
+        <div class="header">
+            <h1>प्रॉडक्ट मॅनेजमेंट ⚙️</h1>
+        </div>
+
+        <!-- Insights / Stats -->
+        <div class="insights">
+            <div class="card">
+                <i class="fas fa-boxes"></i>
+                <div class="card-info">
+                    <h3 id="totalProductsCount">0</h3>
+                    <p>एकूण उत्पादने</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-tags"></i>
+                <div class="card-info">
+                    <h3 id="avgPriceCount">₹0</h3>
+                    <p>सरासरी किंमत</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form and Table Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Add Product Form -->
+            <div class="box">
+                <h3 class="box-title"><i class="fas fa-plus-circle"></i> नवीन प्रॉडक्ट जोडा</h3>
+                <form id="addProductForm">
+                    <label>प्रॉडक्टचे नाव</label>
+                    <input type="text" id="name" required placeholder="उदा. हापूस आंबा">
+
+                    <label>किंमत (₹)</label>
+                    <input type="number" id="price" required placeholder="उदा. १२००">
+                    
+                    <label>प्रमाण (Unit)</label>
+                    <select id="unit">
+                        <option value="१ किलो">१ किलो</option>
+                        <option value="५०० ग्रॅम">५०० ग्रॅम</option>
+                        <option value="२५० ग्रॅम">२५० ग्रॅम</option>
+                        <option value="१ लिटर">१ लिटर</option>
+                        <option value="१ डझन">१ डझन</option>
+                        <option value="१ नग">१ नग</option>
+                    </select>
+
+                    <label>फोटोची लिंक</label>
+                    <input type="text" id="image_url" required placeholder="उदा. mango.jpg">
+                    
+                    <button type="submit" class="btn-orange">सेव्ह करा</button>
+                </form>
+                <p id="statusMsg" style="text-align: center; margin-bottom: 0; font-size: 14px;"></p>
+            </div>
+
+            <!-- Product Table -->
+            <div class="box">
+                <h3 class="box-title"><i class="fas fa-list"></i> दुकानातील उत्पादने</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>फोटो</th>
+                                <th>नाव</th>
+                                <th>किंमत</th>
+                                <th>प्रमाण</th>
+                                <th>ॲक्शन</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productListArea">
+                            <tr><td colspan="5" style="text-align:center; padding: 30px;">डेटा लोड होत आहे... ⏳</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
         const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
 
-        // प्रॉडक्ट्स लोड करणे
+        // डेटाबेसमधून उत्पादने आणणे आणि डॅशबोर्ड अपडेट करणे
         async function loadAdminProducts() {
-            const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
-            const products = await res.json();
-            const area = document.getElementById('productListArea');
-            area.innerHTML = "";
-            products.forEach(p => {
-                area.innerHTML += `
-                    <div class="product-item">
-                        <span>${p.name} - ₹${p.price} / ${p.unit || 'नग'}</span>
-                        <button class="btn-delete" onclick="deleteProduct(${p.id})">Delete</button>
-                    </div>`;
-            });
+            try {
+                const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+                const products = await res.json();
+                
+                const area = document.getElementById('productListArea');
+                area.innerHTML = "";
+                
+                // Insights अपडेट करणे
+                document.getElementById('totalProductsCount').innerText = products.length;
+                
+                let totalPrice = 0;
+                
+                if (products.length === 0) {
+                    area.innerHTML = "<tr><td colspan='5' style='text-align:center; color:#888;'>दुकानात सध्या कोणतेही प्रॉडक्ट नाही.</td></tr>";
+                } else {
+                    products.forEach(p => {
+                        totalPrice += p.price;
+                        area.innerHTML += `
+                            <tr>
+                                <td><img src="${p.image_url}" alt="${p.name}"></td>
+                                <td style="font-weight: 600; color: #2c3e50;">${p.name}</td>
+                                <td style="color: var(--primary); font-weight: bold;">₹${p.price}</td>
+                                <td><span class="unit-badge">${p.unit || '१ नग'}</span></td>
+                                <td><button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>`;
+                    });
+                }
+
+                // सरासरी किंमत काढणे
+                const avgPrice = products.length > 0 ? Math.round(totalPrice / products.length) : 0;
+                document.getElementById('avgPriceCount').innerText = `₹${avgPrice}`;
+
+            } catch (error) {
+                document.getElementById('productListArea').innerHTML = "<tr><td colspan='5' style='text-align:center; color:red;'>डेटा लोड होऊ शकला नाही. इंटरनेट कनेक्शन तपासा.</td></tr>";
+            }
         }
 
-        // प्रॉडक्ट ॲड करणे
+        // नवीन प्रॉडक्ट सबमिट करणे
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
-            btn.innerText = "सेव्ह होत आहे... ⏳";
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेव्ह होत आहे...";
+            btn.disabled = true;
             
             await fetch(`${API_URL}/add-product`, {
                 method: "POST", headers: { "Content-Type": "application/json" },
@@ -76,10 +205,13 @@
                 })
             });
             
-            document.getElementById('statusMsg').innerHTML = "<span style='color: green;'>प्रॉडक्ट ॲड झाले! 🎉</span>";
+            document.getElementById('statusMsg').innerHTML = "<span style='color: #27ae60;'><i class='fas fa-check-circle'></i> प्रॉडक्ट यशस्वीरित्या ॲड झाले!</span>";
             this.reset();
             btn.innerText = "सेव्ह करा";
-            loadAdminProducts(); // लिस्ट रिफ्रेश करणे
+            btn.disabled = false;
+            
+            setTimeout(() => document.getElementById('statusMsg').innerHTML = "", 3000);
+            loadAdminProducts(); // टेबल रिफ्रेश करणे
         });
 
         // प्रॉडक्ट डिलीट करणे
@@ -90,6 +222,7 @@
             }
         }
 
+        // पेज लोड झाल्यावर डेटा आणणे
         window.onload = loadAdminProducts;
     </script>
 </body>
