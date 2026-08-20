@@ -9,13 +9,11 @@
     <style>
         :root { --primary: #d35400; --bg: #f4f7f6; --text: #333; --white: #fff; }
         body { font-family: 'Noto Sans Marathi', sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
-        
         #loginScreen { height: 100vh; display: flex; justify-content: center; align-items: center; background: #2c3e50; }
         .login-box { background: white; padding: 40px; border-radius: 12px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box h2 { color: var(--primary); margin-bottom: 20px; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; text-align: center; font-size: 16px; }
         .login-box button { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        
         #dashboardArea { display: none; }
         .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; box-sizing: border-box; }
         .sidebar h2 { color: var(--primary); font-size: 24px; text-align: center; border-bottom: 1px solid #34495e; padding-bottom: 15px; margin-top: 10px; }
@@ -35,9 +33,11 @@
         td img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
         .unit-badge { background: #e8f4f8; color: #2980b9; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .btn-delete { background: #e74c3c; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; width: auto; margin: 0; }
+        .btn-edit { background: #f39c12; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; width: auto; margin-right: 5px; }
     </style>
 </head>
 <body>
+
     <div id="loginScreen">
         <div class="login-box">
             <h2><i class="fas fa-lock"></i> ॲडमिन लॉगिन</h2>
@@ -57,48 +57,60 @@
                 <div class="nav-item" onclick="logout()" style="background: #e74c3c; margin-top: auto;"><i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> लॉग आउट</div>
             </div>
         </div>
+
         <div class="main">
             <div class="header" style="margin-bottom: 30px;"><h1 style="margin: 0; font-size: 28px;">प्रॉडक्ट मॅनेजमेंट ⚙️</h1></div>
+            
             <div class="insights">
                 <div class="card"><i class="fas fa-boxes"></i><div class="card-info"><h3 id="totalProductsCount">0</h3><p>एकूण उत्पादने</p></div></div>
                 <div class="card"><i class="fas fa-tags"></i><div class="card-info"><h3 id="avgPriceCount">₹0</h3><p>सरासरी किंमत</p></div></div>
             </div>
+
             <div class="dashboard-grid">
+                <!-- फॉर्म जिथे आता कॅटेगरी पण आहे -->
                 <div class="box">
-                    <h3 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-plus-circle"></i> नवीन प्रॉडक्ट जोडा</h3>
+                    <h3 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-plus-circle"></i> प्रॉडक्ट माहिती</h3>
                     <form id="addProductForm">
-                        <label>नाव</label><input type="text" id="name" required placeholder="उदा. हापूस आंबा">
-                        <label>किंमत (₹)</label><input type="number" id="price" required placeholder="उदा. १२००">
+                        <label>नाव</label>
+                        <input type="text" id="name" required placeholder="उदा. हापूस आंबा">
+                        
+                        <label>किंमत (₹)</label>
+                        <input type="number" id="price" required placeholder="उदा. १२००">
+                        
                         <label>प्रमाण (Unit)</label>
                         <select id="unit">
                             <option value="१ किलो">१ किलो</option>
                             <option value="५०० ग्रॅम">५०० ग्रॅम</option>
                             <option value="२५० ग्रॅम">२५० ग्रॅम</option>
-                            <option value="२५० ग्रॅम">२०० ग्रॅम</option>
                             <option value="१ लिटर">१ लिटर</option>
                             <option value="१ डझन">१ डझन</option>
                             <option value="१ नग">१ नग</option>
                         </select>
-                        <label>कॅटेगरी</label>
-<select id="category">
-    <option value="Amsul">आमसूल / कोकणी</option>
-    <option value="Fanas">फणस / खाऊ</option>
-    <option value="Pith">पीठ / धान्य</option>
-    <option value="Loncha">लोणचे / मसाले</option>
-    <option value="All">इतर</option>
-</select>
 
+                        <!-- ही नवीन कॅटेगरी इथे आहे -->
+                        <label>कॅटेगरी (Category)</label>
+                        <select id="category">
+                            <option value="Amsul">आमसूल / कोकणी</option>
+                            <option value="Fanas">फणस / खाऊ</option>
+                            <option value="Pith">पीठ / धान्य</option>
+                            <option value="Loncha">लोणचे / मसाले</option>
+                            <option value="All">इतर</option>
+                        </select>
+
+                        <label>फोटोची लिंक</label>
+                        <input type="text" id="image_url" required placeholder="उदा. mango.jpg">
                         
-                        <label>फोटोची लिंक</label><input type="text" id="image_url" required placeholder="उदा. mango.jpg">
-                        <button type="submit" class="btn-orange">सेव्ह करा</button>
+                        <button type="submit" id="submitBtn" class="btn-orange">सेव्ह करा</button>
                     </form>
-                    <p id="statusMsg" style="text-align: center; font-size: 14px;"></p>
+                    <p id="statusMsg" style="text-align: center; font-size: 14px; margin-top: 10px;"></p>
                 </div>
+
+                <!-- प्रॉडक्ट लिस्ट आणि टेबल -->
                 <div class="box">
                     <h3 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-list"></i> दुकानातील उत्पादने</h3>
                     <div style="overflow-x: auto;">
                         <table>
-                            <thead><tr><th>फोटो</th><th>नाव</th><th>किंमत</th><th>प्रमाण</th><th>ॲक्शन</th></tr></thead>
+                            <thead><tr><th>फोटो</th><th>नाव</th><th>किंमत</th><th>प्रमाण व कॅटेगरी</th><th>ॲक्शन</th></tr></thead>
                             <tbody id="productListArea"><tr><td colspan="5" style="text-align:center;">डेटा लोड होत आहे... ⏳</td></tr></tbody>
                         </table>
                     </div>
@@ -107,10 +119,11 @@
         </div>
     </div>
 
-   <script>
+    <!-- सिक्युरिटी, Add, Delete आणि Edit चा जावास्क्रिप्ट कोड -->
+    <script>
         const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
         let savedPassword = sessionStorage.getItem("adminPass");
-        let editingProductId = null; // नवीन: कोणता प्रॉडक्ट एडिट होतोय ते लक्षात ठेवण्यासाठी
+        let editingProductId = null;
 
         async function checkLogin() {
             const passInput = document.getElementById('adminPassword').value;
@@ -159,9 +172,12 @@
                         <td><img src="${p.image_url}" alt="${p.name}"></td>
                         <td style="font-weight: 600;">${p.name}</td>
                         <td style="color: var(--primary); font-weight: bold;">₹${p.price}</td>
-                        <td><span class="unit-badge">${p.unit || '१ नग'}</span> <br><small style="color:gray;">${p.category || 'All'}</small></td>
                         <td>
-                            <button onclick="editProduct(${p.id}, '${p.name}', ${p.price}, '${p.unit}', '${p.category}', '${p.image_url}')" style="background:#f39c12; color:white; padding:8px; border:none; border-radius:6px; cursor:pointer; margin-right:5px;" title="Edit"><i class="fas fa-edit"></i></button>
+                            <span class="unit-badge">${p.unit || '१ नग'}</span> <br>
+                            <small style="color:gray; font-weight:bold; margin-top:5px; display:inline-block;">${p.category || 'All'}</small>
+                        </td>
+                        <td>
+                            <button class="btn-edit" onclick="editProduct(${p.id}, '${p.name}', ${p.price}, '${p.unit}', '${p.category}', '${p.image_url}')" title="Edit"><i class="fas fa-edit"></i></button>
                             <button class="btn-delete" onclick="deleteProduct(${p.id})" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>`;
@@ -170,27 +186,27 @@
             document.getElementById('avgPriceCount').innerText = `₹${products.length > 0 ? Math.round(totalPrice / products.length) : 0}`;
         }
 
-        // Edit बटन दाबल्यावर काय होईल:
+        // Edit फंक्शन
         function editProduct(id, name, price, unit, category, img) {
             editingProductId = id;
             document.getElementById('name').value = name;
             document.getElementById('price').value = price;
             document.getElementById('unit').value = unit || '१ नग';
-            document.getElementById('category').value = category || 'All';
+            document.getElementById('category').value = category || 'All'; // कॅटेगरी पण आपोआप सिलेक्ट होईल
             document.getElementById('image_url').value = img;
 
-            const submitBtn = document.querySelector('#addProductForm button');
+            const submitBtn = document.getElementById('submitBtn');
             submitBtn.innerText = "अपडेट करा 🔄";
-            submitBtn.style.background = "#27ae60"; // बटन हिरवे होईल
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // पेज वरती सरकेल
+            submitBtn.style.background = "#27ae60"; 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
+        // सेव्ह / अपडेट करणे
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const btn = this.querySelector('button');
+            const btn = document.getElementById('submitBtn');
             btn.innerHTML = "सेव्ह होत आहे... ⏳"; btn.disabled = true;
             
-            // जर Editing चालू असेल तर edit ची लिंक, नाहीतर add ची लिंक
             const url = editingProductId ? `${API_URL}/edit-product` : `${API_URL}/add-product`;
             const method = editingProductId ? "PUT" : "POST";
             
@@ -198,11 +214,11 @@
                 method: method, 
                 headers: { "Content-Type": "application/json", "x-admin-pass": savedPassword },
                 body: JSON.stringify({
-                    id: editingProductId, // अपडेटसाठी ID पाठवणे
+                    id: editingProductId,
                     name: document.getElementById('name').value,
                     price: document.getElementById('price').value,
                     unit: document.getElementById('unit').value,
-                    category: document.getElementById('category').value,
+                    category: document.getElementById('category').value, // इथून कॅटेगरी पास होईल
                     image_url: document.getElementById('image_url').value,
                     stock_status: "In Stock"
                 })
@@ -211,7 +227,7 @@
             if(res.ok) {
                 document.getElementById('statusMsg').innerHTML = `<span style='color: green;'>प्रॉडक्ट ${editingProductId ? 'अपडेट' : 'ॲड'} झाले! 🎉</span>`;
                 this.reset();
-                editingProductId = null; // काम झाल्यावर पुन्हा Add मोडवर जाणे
+                editingProductId = null; 
                 btn.innerText = "सेव्ह करा"; 
                 btn.style.background = "var(--primary)";
                 loadAdminProducts();
@@ -222,6 +238,7 @@
             btn.disabled = false;
         });
 
+        // डिलीट करणे
         async function deleteProduct(id) {
             if(confirm("नक्की काढून टाकायचे?")) {
                 await fetch(`${API_URL}/delete-product?id=${id}`, { method: "DELETE", headers: { "x-admin-pass": savedPassword } });
