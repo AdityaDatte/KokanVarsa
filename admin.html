@@ -107,22 +107,17 @@
         </div>
     </div>
 
-    <script>
+   <script>
         const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
         let savedPassword = sessionStorage.getItem("adminPass");
+        let editingProductId = null; // नवीन: कोणता प्रॉडक्ट एडिट होतोय ते लक्षात ठेवण्यासाठी
 
         async function checkLogin() {
             const passInput = document.getElementById('adminPassword').value;
             const btn = document.querySelector('.login-box button');
             btn.innerText = "चेक करत आहे... ⏳";
-            
             try {
-                // पासवर्ड थेट बॅकएंडला पाठवून चेक करणे
-                const res = await fetch(`${API_URL}/verify-admin`, {
-                    method: "POST",
-                    headers: { "x-admin-pass": passInput }
-                });
-
+                const res = await fetch(`${API_URL}/verify-admin`, { method: "POST", headers: { "x-admin-pass": passInput } });
                 if (res.ok) {
                     sessionStorage.setItem("adminPass", passInput);
                     savedPassword = passInput;
@@ -146,10 +141,7 @@
             loadAdminProducts();
         }
 
-        function logout() {
-            sessionStorage.removeItem("adminPass");
-            location.reload();
-        }
+        function logout() { sessionStorage.removeItem("adminPass"); location.reload(); }
 
         async function loadAdminProducts() {
             const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
@@ -167,52 +159,72 @@
                         <td><img src="${p.image_url}" alt="${p.name}"></td>
                         <td style="font-weight: 600;">${p.name}</td>
                         <td style="color: var(--primary); font-weight: bold;">₹${p.price}</td>
-                        <td><span class="unit-badge">${p.unit || '१ नग'}</span></td>
-                        <td><button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash-alt"></i></button></td>
+                        <td><span class="unit-badge">${p.unit || '१ नग'}</span> <br><small style="color:gray;">${p.category || 'All'}</small></td>
+                        <td>
+                            <button onclick="editProduct(${p.id}, '${p.name}', ${p.price}, '${p.unit}', '${p.category}', '${p.image_url}')" style="background:#f39c12; color:white; padding:8px; border:none; border-radius:6px; cursor:pointer; margin-right:5px;" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </td>
                     </tr>`;
                 });
             }
-            const avgPrice = products.length > 0 ? Math.round(totalPrice / products.length) : 0;
-            document.getElementById('avgPriceCount').innerText = `₹${avgPrice}`;
+            document.getElementById('avgPriceCount').innerText = `₹${products.length > 0 ? Math.round(totalPrice / products.length) : 0}`;
+        }
+
+        // Edit बटन दाबल्यावर काय होईल:
+        function editProduct(id, name, price, unit, category, img) {
+            editingProductId = id;
+            document.getElementById('name').value = name;
+            document.getElementById('price').value = price;
+            document.getElementById('unit').value = unit || '१ नग';
+            document.getElementById('category').value = category || 'All';
+            document.getElementById('image_url').value = img;
+
+            const submitBtn = document.querySelector('#addProductForm button');
+            submitBtn.innerText = "अपडेट करा 🔄";
+            submitBtn.style.background = "#27ae60"; // बटन हिरवे होईल
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // पेज वरती सरकेल
         }
 
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
-            btn.innerHTML = "सेव्ह होत आहे..."; btn.disabled = true;
+            btn.innerHTML = "सेव्ह होत आहे... ⏳"; btn.disabled = true;
             
-            const res = await fetch(`${API_URL}/add-product`, {
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/json",
-                    "x-admin-pass": savedPassword 
-                },
+            // जर Editing चालू असेल तर edit ची लिंक, नाहीतर add ची लिंक
+            const url = editingProductId ? `${API_URL}/edit-product` : `${API_URL}/add-product`;
+            const method = editingProductId ? "PUT" : "POST";
+            
+            const res = await fetch(url, {
+                method: method, 
+                headers: { "Content-Type": "application/json", "x-admin-pass": savedPassword },
                 body: JSON.stringify({
-    name: document.getElementById('name').value,
-    price: document.getElementById('price').value,
-    unit: document.getElementById('unit').value,
-    category: document.getElementById('category').value,  // <--- ही नवीन ओळ ॲड केली!
-    image_url: document.getElementById('image_url').value,
-    stock_status: "In Stock"
-})
+                    id: editingProductId, // अपडेटसाठी ID पाठवणे
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value,
+                    unit: document.getElementById('unit').value,
+                    category: document.getElementById('category').value,
+                    image_url: document.getElementById('image_url').value,
+                    stock_status: "In Stock"
+                })
             });
             
             if(res.ok) {
-                document.getElementById('statusMsg').innerHTML = "<span style='color: green;'>प्रॉडक्ट ॲड झाले!</span>";
+                document.getElementById('statusMsg').innerHTML = `<span style='color: green;'>प्रॉडक्ट ${editingProductId ? 'अपडेट' : 'ॲड'} झाले! 🎉</span>`;
                 this.reset();
+                editingProductId = null; // काम झाल्यावर पुन्हा Add मोडवर जाणे
+                btn.innerText = "सेव्ह करा"; 
+                btn.style.background = "var(--primary)";
                 loadAdminProducts();
             } else {
-                document.getElementById('statusMsg').innerHTML = "<span style='color: red;'>एरर: चुकीचा पासवर्ड किंवा सर्व्हर प्रॉब्लेम.</span>";
+                document.getElementById('statusMsg').innerHTML = "<span style='color: red;'>एरर आला आहे!</span>";
+                btn.innerText = editingProductId ? "अपडेट करा 🔄" : "सेव्ह करा";
             }
-            btn.innerText = "सेव्ह करा"; btn.disabled = false;
+            btn.disabled = false;
         });
 
         async function deleteProduct(id) {
             if(confirm("नक्की काढून टाकायचे?")) {
-                await fetch(`${API_URL}/delete-product?id=${id}`, { 
-                    method: "DELETE",
-                    headers: { "x-admin-pass": savedPassword } 
-                });
+                await fetch(`${API_URL}/delete-product?id=${id}`, { method: "DELETE", headers: { "x-admin-pass": savedPassword } });
                 loadAdminProducts();
             }
         }
