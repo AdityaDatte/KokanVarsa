@@ -205,7 +205,51 @@
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerHTML = "सेव्ह होत आहे... ⏳"; btn.disabled = true;
+            btn.innerHTML = editingProductId ? "अपडेट होत आहे... ⏳" : "सेव्ह होत आहे... ⏳"; 
+            btn.disabled = true;
+            
+            const url = editingProductId ? `${API_URL}/edit-product` : `${API_URL}/add-product`;
+            const method = editingProductId ? "PUT" : "POST";
+            
+            try {
+                const res = await fetch(url, {
+                    method: method, 
+                    headers: { "Content-Type": "application/json", "x-admin-pass": savedPassword },
+                    body: JSON.stringify({
+                        id: editingProductId,
+                        name: document.getElementById('name').value,
+                        price: document.getElementById('price').value,
+                        unit: document.getElementById('unit').value,
+                        category: document.getElementById('category').value,
+                        image_url: document.getElementById('image_url').value,
+                        stock_status: "In Stock"
+                    })
+                });
+                
+                const result = await res.json();
+                
+                if(res.ok && result.success) {
+                    document.getElementById('statusMsg').innerHTML = `<span style='color: green; font-weight: bold;'>प्रॉडक्ट यशस्वीरित्या ${editingProductId ? 'अपडेट' : 'ॲड'} झाले! 🎉</span>`;
+                    this.reset();
+                    editingProductId = null; 
+                    loadAdminProducts();
+                } else {
+                    document.getElementById('statusMsg').innerHTML = `<span style='color: red;'>एरर: ${result.error || 'काहीतरी चूक झाली'}</span>`;
+                }
+            } catch (err) {
+                document.getElementById('statusMsg').innerHTML = "<span style='color: red;'>सर्व्हरशी संपर्क होऊ शकला नाही!</span>";
+            } finally {
+                // हे अत्यंत महत्त्वाचे आहे: एरर असो वा यश, बटण नेहमी पूर्ववत होईल आणि हँग होणार नाही!
+                btn.disabled = false;
+                if (!editingProductId) {
+                    btn.innerText = "सेव्ह करा";
+                    btn.style.background = "var(--primary)";
+                } else {
+                    btn.innerText = "अपडेट करा 🔄";
+                    btn.style.background = "#27ae60";
+                }
+            }
+        });
             
             const url = editingProductId ? `${API_URL}/edit-product` : `${API_URL}/add-product`;
             const method = editingProductId ? "PUT" : "POST";
