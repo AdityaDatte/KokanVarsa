@@ -10,17 +10,13 @@
         :root { --primary: #d35400; --bg: #f4f7f6; --text: #333; --white: #fff; }
         body { font-family: 'Noto Sans Marathi', sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
         
-        /* Login Screen Styles */
         #loginScreen { height: 100vh; display: flex; justify-content: center; align-items: center; background: #2c3e50; }
         .login-box { background: white; padding: 40px; border-radius: 12px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box h2 { color: var(--primary); margin-bottom: 20px; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; text-align: center; font-size: 16px; }
         .login-box button { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
         
-        /* Hide Dashboard Initially */
         #dashboardArea { display: none; }
-
-        /* Dashboard Styles (जुनेच डिझाईन) */
         .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; box-sizing: border-box; }
         .sidebar h2 { color: var(--primary); font-size: 24px; text-align: center; border-bottom: 1px solid #34495e; padding-bottom: 15px; margin-top: 10px; }
         .sidebar p { text-align: center; font-size: 14px; color: #bdc3c7; margin-bottom: 30px; }
@@ -42,8 +38,6 @@
     </style>
 </head>
 <body>
-
-    <!-- 1. Login Screen -->
     <div id="loginScreen">
         <div class="login-box">
             <h2><i class="fas fa-lock"></i> ॲडमिन लॉगिन</h2>
@@ -54,7 +48,6 @@
         </div>
     </div>
 
-    <!-- 2. Main Dashboard (लपवलेले) -->
     <div id="dashboardArea">
         <div class="sidebar">
             <h2>कोकण वारसा</h2>
@@ -64,17 +57,12 @@
                 <div class="nav-item" onclick="logout()" style="background: #e74c3c; margin-top: auto;"><i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> लॉग आउट</div>
             </div>
         </div>
-
         <div class="main">
-            <div class="header" style="margin-bottom: 30px;">
-                <h1 style="margin: 0; font-size: 28px;">प्रॉडक्ट मॅनेजमेंट ⚙️</h1>
-            </div>
-
+            <div class="header" style="margin-bottom: 30px;"><h1 style="margin: 0; font-size: 28px;">प्रॉडक्ट मॅनेजमेंट ⚙️</h1></div>
             <div class="insights">
                 <div class="card"><i class="fas fa-boxes"></i><div class="card-info"><h3 id="totalProductsCount">0</h3><p>एकूण उत्पादने</p></div></div>
                 <div class="card"><i class="fas fa-tags"></i><div class="card-info"><h3 id="avgPriceCount">₹0</h3><p>सरासरी किंमत</p></div></div>
             </div>
-
             <div class="dashboard-grid">
                 <div class="box">
                     <h3 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-plus-circle"></i> नवीन प्रॉडक्ट जोडा</h3>
@@ -83,14 +71,13 @@
                         <label>किंमत (₹)</label><input type="number" id="price" required placeholder="उदा. १२००">
                         <label>प्रमाण (Unit)</label>
                         <select id="unit">
-                            <option value="१ किलो">१ किलो</option><option value="५०० ग्रॅम">५०० ग्रॅम</option><option value="१ लिटर">१ लिटर</option><option value="१ डझन">१ डझन</option><option value="१ नग">१ नग</option>
+                            <option value="१ किलो">१ किलो</option><option value="५०० ग्रॅम">५०० ग्रॅम</option><option value="२५० ग्रॅम">२५० ग्रॅम</option><option value="१ लिटर">१ लिटर</option><option value="१ डझन">१ डझन</option><option value="१ नग">१ नग</option>
                         </select>
                         <label>फोटोची लिंक</label><input type="text" id="image_url" required placeholder="उदा. mango.jpg">
                         <button type="submit" class="btn-orange">सेव्ह करा</button>
                     </form>
                     <p id="statusMsg" style="text-align: center; font-size: 14px;"></p>
                 </div>
-
                 <div class="box">
                     <h3 style="margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-list"></i> दुकानातील उत्पादने</h3>
                     <div style="overflow-x: auto;">
@@ -108,23 +95,36 @@
         const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
         let savedPassword = sessionStorage.getItem("adminPass");
 
-        // १. लॉगिन चेक करणे
-        function checkLogin() {
+        async function checkLogin() {
             const passInput = document.getElementById('adminPassword').value;
-            // इथे फक्त UI दाखवण्यासाठी बेसिक चेक, खरा सिक्युरिटी चेक API वर होईल
-            if (passInput === "Aditya@2026") {
-                sessionStorage.setItem("adminPass", passInput);
-                savedPassword = passInput;
-                document.getElementById('loginScreen').style.display = "none";
-                document.getElementById('dashboardArea').style.display = "flex";
-                loadAdminProducts();
-            } else {
+            const btn = document.querySelector('.login-box button');
+            btn.innerText = "चेक करत आहे... ⏳";
+            
+            try {
+                // पासवर्ड थेट बॅकएंडला पाठवून चेक करणे
+                const res = await fetch(`${API_URL}/verify-admin`, {
+                    method: "POST",
+                    headers: { "x-admin-pass": passInput }
+                });
+
+                if (res.ok) {
+                    sessionStorage.setItem("adminPass", passInput);
+                    savedPassword = passInput;
+                    document.getElementById('loginScreen').style.display = "none";
+                    document.getElementById('dashboardArea').style.display = "flex";
+                    loadAdminProducts();
+                } else {
+                    document.getElementById('loginError').style.display = "block";
+                    btn.innerText = "लॉगिन करा";
+                }
+            } catch (error) {
+                document.getElementById('loginError').innerText = "सर्व्हरशी संपर्क तुटला!";
                 document.getElementById('loginError').style.display = "block";
+                btn.innerText = "लॉगिन करा";
             }
         }
 
-        // जर आधीच लॉगिन असेल तर थेट डॅशबोर्ड दाखवा
-        if (savedPassword === "Aditya@2026") {
+        if (savedPassword) {
             document.getElementById('loginScreen').style.display = "none";
             document.getElementById('dashboardArea').style.display = "flex";
             loadAdminProducts();
@@ -135,7 +135,6 @@
             location.reload();
         }
 
-        // २. प्रॉडक्ट्स लोड करणे
         async function loadAdminProducts() {
             const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
             const products = await res.json();
@@ -143,9 +142,11 @@
             area.innerHTML = "";
             document.getElementById('totalProductsCount').innerText = products.length;
             
+            let totalPrice = 0;
             if (products.length === 0) area.innerHTML = "<tr><td colspan='5' style='text-align:center;'>प्रॉडक्ट नाही.</td></tr>";
             else {
                 products.forEach(p => {
+                    totalPrice += p.price;
                     area.innerHTML += `<tr>
                         <td><img src="${p.image_url}" alt="${p.name}"></td>
                         <td style="font-weight: 600;">${p.name}</td>
@@ -155,9 +156,10 @@
                     </tr>`;
                 });
             }
+            const avgPrice = products.length > 0 ? Math.round(totalPrice / products.length) : 0;
+            document.getElementById('avgPriceCount').innerText = `₹${avgPrice}`;
         }
 
-        // ३. नवीन प्रॉडक्ट ॲड करणे (पासवर्डसह)
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
@@ -167,7 +169,7 @@
                 method: "POST", 
                 headers: { 
                     "Content-Type": "application/json",
-                    "x-admin-pass": savedPassword // हा पासवर्ड API ला जाईल
+                    "x-admin-pass": savedPassword 
                 },
                 body: JSON.stringify({
                     name: document.getElementById('name').value,
@@ -188,12 +190,11 @@
             btn.innerText = "सेव्ह करा"; btn.disabled = false;
         });
 
-        // ४. प्रॉडक्ट डिलीट करणे (पासवर्डसह)
         async function deleteProduct(id) {
             if(confirm("नक्की काढून टाकायचे?")) {
                 await fetch(`${API_URL}/delete-product?id=${id}`, { 
                     method: "DELETE",
-                    headers: { "x-admin-pass": savedPassword } // हा पासवर्ड API ला जाईल
+                    headers: { "x-admin-pass": savedPassword } 
                 });
                 loadAdminProducts();
             }
