@@ -4,75 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Kokan Varsa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans Marathi', sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
-        .admin-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { text-align: center; color: #d35400; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 5px; color: #333; }
-        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; background: #d35400; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button:hover { background: #b04600; }
-        #statusMsg { text-align: center; margin-top: 15px; font-weight: bold; }
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 500px; margin-bottom: 20px; }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .btn-orange { background: #d35400; color: white; font-weight: bold; cursor: pointer; border: none; }
+        .btn-delete { background: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-    <div class="admin-box">
-        <h2>कोकण वारसा - Admin ⚙️</h2>
+    <div class="box">
+        <h2 style="color: #d35400; text-align: center;">नवीन प्रॉडक्ट टाका</h2>
         <form id="addProductForm">
-            <label>प्रॉडक्टचे नाव:</label>
-            <input type="text" id="name" required placeholder="उदा. सांडगे (५०० ग्रॅम)">
+            <input type="text" id="name" required placeholder="प्रॉडक्टचे नाव (उदा. मालवणी मसाला)">
+            <input type="number" id="price" required placeholder="किंमत (₹)">
+            
+            <select id="unit">
+                <option value="१ किलो">१ किलो</option>
+                <option value="५०० ग्रॅम">५०० ग्रॅम</option>
+                <option value="२५० ग्रॅम">२५० ग्रॅम</option>
+                <option value="१ लिटर">१ लिटर</option>
+                <option value="१ डझन">१ डझन</option>
+                <option value="१ नग">१ नग</option>
+            </select>
 
-            <label>किंमत (₹):</label>
-            <input type="number" id="price" required placeholder="उदा. 200">
-
-            <label>फोटोची लिंक (किंवा फाईलचे नाव):</label>
-            <input type="text" id="image_url" required placeholder="उदा. sandge.jpg किंवा फोटोची लिंक">
-
-            <button type="submit">नवीन प्रॉडक्ट ॲड करा</button>
+            <input type="text" id="image_url" required placeholder="फोटोची लिंक (उदा. masala.jpg)">
+            <button type="submit" class="btn-orange">सेव्ह करा</button>
         </form>
-        <p id="statusMsg"></p>
+        <p id="statusMsg" style="text-align: center;"></p>
+    </div>
+
+    <div class="box">
+        <h3 style="text-align: center;">दुकानातील प्रॉडक्ट्स</h3>
+        <div id="productListArea">लोड होत आहे... ⏳</div>
     </div>
 
     <script>
+        const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
+
+        // प्रॉडक्ट्स लोड करणे
+        async function loadAdminProducts() {
+            const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+            const products = await res.json();
+            const area = document.getElementById('productListArea');
+            area.innerHTML = "";
+            products.forEach(p => {
+                area.innerHTML += `
+                    <div class="product-item">
+                        <span>${p.name} - ₹${p.price} / ${p.unit || 'नग'}</span>
+                        <button class="btn-delete" onclick="deleteProduct(${p.id})">Delete</button>
+                    </div>`;
+            });
+        }
+
+        // प्रॉडक्ट ॲड करणे
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
-            btn.innerText = "डेटाबेसमध्ये सेव्ह होत आहे... ⏳";
-            btn.disabled = true;
-
-            // फॉर्ममधला डेटा गोळा करणे
-            const productData = {
-                name: document.getElementById('name').value,
-                price: document.getElementById('price').value,
-                image_url: document.getElementById('image_url').value,
-                stock_status: "In Stock"
-            };
-
-            try {
-                // बॅकएंडला डेटा पाठवणे
-                const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/add-product", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(productData)
-                });
-
-                const result = await response.json();
-                
-                if(result.success) {
-                    document.getElementById('statusMsg').innerHTML = "<span style='color: green;'>प्रॉडक्ट यशस्वीरित्या दुकानात ॲड झाले! 🎉</span>";
-                    this.reset(); // फॉर्म रिकामा करणे
-                } else {
-                    document.getElementById('statusMsg').innerHTML = "<span style='color: red;'>काहीतरी चूक झाली!</span>";
-                }
-            } catch(error) {
-                document.getElementById('statusMsg').innerHTML = "<span style='color: red;'>सर्व्हर एरर! इंटरनेट तपासा.</span>";
-            }
+            btn.innerText = "सेव्ह होत आहे... ⏳";
             
-            btn.innerText = "नवीन प्रॉडक्ट ॲड करा";
-            btn.disabled = false;
+            await fetch(`${API_URL}/add-product`, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value,
+                    unit: document.getElementById('unit').value,
+                    image_url: document.getElementById('image_url').value,
+                    stock_status: "In Stock"
+                })
+            });
+            
+            document.getElementById('statusMsg').innerHTML = "<span style='color: green;'>प्रॉडक्ट ॲड झाले! 🎉</span>";
+            this.reset();
+            btn.innerText = "सेव्ह करा";
+            loadAdminProducts(); // लिस्ट रिफ्रेश करणे
         });
+
+        // प्रॉडक्ट डिलीट करणे
+        async function deleteProduct(id) {
+            if(confirm("तुम्हाला नक्की हे प्रॉडक्ट काढून टाकायचे आहे का?")) {
+                await fetch(`${API_URL}/delete-product?id=${id}`, { method: "DELETE" });
+                loadAdminProducts();
+            }
+        }
+
+        window.onload = loadAdminProducts;
     </script>
 </body>
 </html>
