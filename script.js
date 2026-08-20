@@ -1,46 +1,34 @@
 // --- 1. Product Database ---
-const allProducts = [
-    { 
-        id: 1, 
-        name: "कोकणी आमसूल", 
-        cat: "Amsul", 
-        price: 500, 
-        unit: "१ किलो", /* इथे प्रमाण जोडले आहे */
-        rating: 4.8, 
-        img: "https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/kokam.png", 
-        badge: "बेस्ट सेलर" 
-    },
-    { 
-        id: 2, 
-        name: "कुरकुरीत फणस गारे", 
-        cat: "Fanas", 
-        price: 850, 
-        unit: "१ किलो ", 
-        rating: 4.5, 
-        img: "https://images.unsplash.com/photo-1601001815894-3a7894d306dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", 
-        badge: "नवीन" 
-    },
-    { 
-        id: 3, 
-        name: "पौष्टिक कुळीथ पीठ", 
-        cat: "Pith", 
-        price: 120, 
-        unit: "१ किलो", 
-        rating: 4.7, 
-        img: "https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/kulith%20pith.png", 
-        badge: "अस्सल" 
-    },
-    { 
-        id: 4, 
-        name: "चविष्ट मिरची लोणचे", 
-        cat: "Loncha", 
-        price: 450, 
-        unit: "१ किलो", 
-        rating: 5.0, 
-        img: "https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/mirchi-loncha.png", 
-        badge: "प्रसिद्ध" 
+// १. हा आता रिकामा राहील, कारण डेटा थेट डेटाबेसमधून येईल
+let allProducts = []; 
+
+// २. पेज लोड झाल्यावर डेटाबेसमधून प्रॉडक्ट्स आणणे
+window.onload = async () => {
+    try {
+        const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/products");
+        const dbProducts = await response.json();
+
+        // डेटाबेसमधून आलेला डेटा तुझ्या जुन्या डिझाईनच्या फॉरमॅटमध्ये सेट करणे
+        allProducts = dbProducts.map(p => ({
+            id: p.id,
+            name: p.name,
+            cat: "All", 
+            price: p.price,
+            unit: "१ किलो / डझन", 
+            rating: 5.0,
+            img: p.image_url,
+            badge: p.stock_status === "In Stock" ? "उपलब्ध" : "Out of Stock"
+        }));
+
+        // तुझे जुने फंक्शन्स वापरून प्रॉडक्ट्स स्क्रीनवर दाखवणे
+        renderProductsList("homeProductsContainer", allProducts);
+        renderProductsList("shopProductsContainer", allProducts);
+
+    } catch (error) {
+        console.error("प्रॉडक्ट्स लोड करताना एरर आला:", error);
+        document.getElementById("homeProductsContainer").innerHTML = "<p style='color:red;'>प्रॉडक्ट्स लोड होऊ शकले नाहीत. इंटरनेट तपासा!</p>";
     }
-];
+};
   
 
 let cartArray = [];
@@ -198,10 +186,7 @@ document.getElementById("searchInput").addEventListener("input", function (e) {
   renderProductsList("shopProductsContainer", filtered);
 });
 
-window.onload = () => {
-  renderProductsList("homeProductsContainer", allProducts);
-  renderProductsList("shopProductsContainer", allProducts);
-};
+
 
 
 // फॉर्म सबमिट झाल्यावर काय व्हायला पाहिजे याचा कोड
