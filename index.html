@@ -215,30 +215,14 @@
               ऑर्डर कन्फर्म करा
             </h3>
 
-            <form
-              action="https://formsubmit.co/kokanvarsa.shop@gmail.com"
-              method="POST"
-              onsubmit="prepareOrderData()"
-            >
-              <input type="hidden" name="_captcha" value="false" />
-              <input
-                type="hidden"
-                name="_subject"
-                value="नवीन ऑर्डर - कोकण वारसा कडून!"
-              />
-              <input
-                type="hidden"
-                name="Order_Details"
-                id="hiddenOrderDetails"
-              />
-              <input type="hidden" name="Total_Amount" id="hiddenTotalAmount" />
-
-              <!-- पेमेंट पेजवर रिडायरेक्ट करण्यासाठी (इथे तुमची Razorpay किंवा Instamojo लिंक टाका) -->
-              <input
-                type="hidden"
-                name="_next"
-                value="https://rzp.io/rzp/iOUTiNYy "
-              />
+           
+           <form id="orderForm" onsubmit="prepareOrderData()">
+    
+    <!-- हे दोन टॅग्स कार्टच्या माहितीसाठी -->
+    <input type="hidden" name="Order_Details" id="hiddenOrderDetails" />
+    <input type="hidden" name="Total_Amount" id="hiddenTotalAmount" />
+    
+    <!-- याच्या खाली तुझे ग्राहकाचे नाव, पत्ता घेणारे टॅग्स असतील ते राहू दे -->
 
               <div class="form-group">
                 <label>पूर्ण नाव</label>
