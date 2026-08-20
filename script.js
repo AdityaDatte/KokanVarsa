@@ -11,16 +11,15 @@ const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.d
 
         // डेटाबेसमधून आलेला डेटा तुझ्या जुन्या डिझाईनच्या फॉरमॅटमध्ये सेट करणे
         allProducts = dbProducts.map(p => ({
-            id: p.id,
-            name: p.name,
-            cat: "All", 
-            price: p.price,
-            unit: p.unit || "१ नग", 
-            rating: 5.0,
-            img: p.image_url,
-            badge: p.stock_status === "In Stock" ? "उपलब्ध" : "Out of Stock"
-        }));
-
+    id: p.id,
+    name: p.name,
+    cat: p.category || "All",  // <--- ही लाईन महत्त्वाची आहे
+    price: p.price,
+    unit: p.unit || "१ नग", 
+    rating: 5.0,
+    img: p.image_url,
+    badge: p.stock_status === "In Stock" ? "उपलब्ध" : "Out of Stock"
+}));
         // तुझे जुने फंक्शन्स वापरून प्रॉडक्ट्स स्क्रीनवर दाखवणे
         renderProductsList("homeProductsContainer", allProducts);
         renderProductsList("shopProductsContainer", allProducts);
