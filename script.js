@@ -202,3 +202,41 @@ window.onload = () => {
   renderProductsList("homeProductsContainer", allProducts);
   renderProductsList("shopProductsContainer", allProducts);
 };
+
+
+// फॉर्म सबमिट झाल्यावर काय व्हायला पाहिजे याचा कोड
+document.getElementById("orderForm").addEventListener("submit", async function(event) {
+    event.preventDefault(); // फॉर्म आपोआप रिफ्रेश होण्यापासून थांबवण्यासाठी
+
+    // बटन डिसेबल करा जेणेकरून ग्राहक दोनदा क्लिक करणार नाही
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = "ऑर्डर प्रोसेस होत आहे... ⏳";
+    submitBtn.disabled = true;
+
+    // फॉर्ममधील डेटा गोळा करणे
+    const formData = new FormData(this);
+
+    try {
+        // तुझ्या Cloudflare Backend ला डेटा पाठवणे
+        const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/order", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // ऑर्डर यशस्वी झाल्यावर ग्राहकाला Razorpay च्या पेमेंट पेजवर पाठवा
+            window.location.href = "https://rzp.io/rzp/iOUTiNYy"; 
+        } else {
+            alert("ऑर्डर नोंदवताना काहीतरी अडचण आली. कृपया पुन्हा प्रयत्न करा.");
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    } catch (error) {
+        alert("सर्व्हरशी संपर्क होऊ शकला नाही. इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा!");
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+    }
+});
