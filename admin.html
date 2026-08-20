@@ -188,18 +188,18 @@
 
         // Edit फंक्शन
         function editProduct(id, name, price, unit, category, img) {
-            editingProductId = id;
-            document.getElementById('name').value = name;
-            document.getElementById('price').value = price;
-            document.getElementById('unit').value = unit || '१ नग';
-            document.getElementById('category').value = category || 'All'; // कॅटेगरी पण आपोआप सिलेक्ट होईल
-            document.getElementById('image_url').value = img;
+    editingProductId = id; // हा ID सेव्ह होणे अत्यंत महत्त्वाचे आहे
+    document.getElementById('name').value = name;
+    document.getElementById('price').value = price;
+    document.getElementById('unit').value = unit || '१ नग';
+    document.getElementById('category').value = category || 'All';
+    document.getElementById('image_url').value = img;
 
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.innerText = "अपडेट करा 🔄";
-            submitBtn.style.background = "#27ae60"; 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        }
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "अपडेट करा 🔄";
+    submitBtn.style.background = "#27ae60"; 
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+}
 
         // सेव्ह / अपडेट करणे
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
