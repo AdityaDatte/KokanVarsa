@@ -15,7 +15,7 @@ const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.d
             name: p.name,
             cat: "All", 
             price: p.price,
-            unit: "१ किलो / डझन", 
+            unit: p.unit || "१ नग", 
             rating: 5.0,
             img: p.image_url,
             badge: p.stock_status === "In Stock" ? "उपलब्ध" : "Out of Stock"
