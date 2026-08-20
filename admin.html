@@ -188,12 +188,13 @@
                     "x-admin-pass": savedPassword 
                 },
                 body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    price: document.getElementById('price').value,
-                    unit: document.getElementById('unit').value,
-                    image_url: document.getElementById('image_url').value,
-                    stock_status: "In Stock"
-                })
+    name: document.getElementById('name').value,
+    price: document.getElementById('price').value,
+    unit: document.getElementById('unit').value,
+    category: document.getElementById('category').value,  // <--- ही नवीन ओळ ॲड केली!
+    image_url: document.getElementById('image_url').value,
+    stock_status: "In Stock"
+})
             });
             
             if(res.ok) {
