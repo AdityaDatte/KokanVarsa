@@ -54,14 +54,12 @@ header {
     align-items: center;
 }
 .nav-links li {
-    text-decoration: none;
-    color: var(--dark-text);
     font-weight: 500;
     font-size: 15px;
     cursor: pointer;
     transition: color 0.3s;
 }
-.nav-links li:hover, .nav-links li.active {
+.nav-links li a:hover, .nav-links li a.active {
     color: var(--primary);
 }
 .cart-icon-wrapper {
@@ -244,7 +242,7 @@ header {
     background: var(--primary-dark);
 }
 
-/* --- Cart Page --- */
+/* --- Cart & Pages Box --- */
 .cart-box { 
     background: var(--white); 
     padding: 30px; 
