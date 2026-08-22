@@ -4,48 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कोकण वारसा - अस्सल कोकणी स्वाद</title>
-    <!-- FontAwesome & Google Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
     <!-- Header -->
     <header>
         <div class="nav-container">
-            <div class="logo-area" onclick="navigate('shop')" style="cursor: pointer;">
+            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer;">
                 <h1>कोकण वारसा</h1>
                 <p>अस्सल कोकणी स्वाद</p>
             </div>
-            <ul class="nav-links" id="nav-menu">
-                <li><a onclick="navigate('shop')" class="active" style="color:inherit; text-decoration:none;">होम</a></li>
-                <li><a onclick="navigate('shop')" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
-                <li><a onclick="navigate('about')" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
-                <li><a onclick="navigate('contact')" style="color:inherit; text-decoration:none;">संपर्क</a></li>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active" style="color:var(--primary); text-decoration:none;">होम</a></li>
+                <li><a href="products.html" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
+                <li><a href="products.html#about" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a href="products.html#contact" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
             <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
-                <!-- Search Bar -->
-                <div class="search-box" style="position: relative;">
-                    <input type="text" id="searchInput" placeholder="उत्पादने शोधा..." oninput="handleSearch(this.value)" style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 150px; transition: width 0.3s;">
-                </div>
-                <!-- Cart Icon -->
-                <div class="cart-icon-wrapper" onclick="navigate('cart')" style="cursor: pointer; position: relative; font-size: 18px;">
+                <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- SHOP / HOME PAGE WITH HERO BANNER -->
-    <div id="shop" class="container page-section active">
+    <!-- HOME PAGE HERO & HIGHLIGHTS -->
+    <div class="container">
         <!-- Hero Banner -->
         <div class="hero-banner">
             <div class="hero-content">
                 <h2>अस्सल कोकणी चव, थेट तुमच्या दारात!</h2>
                 <p>कोकणच्या मातीतील गोडवा आणि आपुलकी, आता तुमच्या घरी.</p>
-                <button class="btn-banner" onclick="window.scrollTo({top: 500, behavior: 'smooth'})">आता खरेदी करा</button>
+                <button class="btn-banner" onclick="location.href='products.html'">सर्व उत्पादने पहा</button>
             </div>
         </div>
 
@@ -56,125 +49,21 @@
             <div class="trust-badge-item"><i class="fas fa-handshake" style="color:var(--green-badge);"></i> थेट शेतकऱ्यांकडून</div>
         </div>
 
-        <!-- Main Layout with Category Sidebar & Products -->
-        <div class="shop-layout" style="margin-top: 30px;">
-            <div class="category-sidebar">
-                <h3>कॅटेगरी</h3>
-                <ul class="category-list" id="categoryList">
-                    <li class="active" onclick="filterProducts('All', this)">सर्व उत्पादने</li>
-                    <li onclick="filterProducts('Amsul', this)">आमसूळ आणि कोकण</li>
-                    <li onclick="filterProducts('Fanas', this)">फणसाचे पदार्थ</li>
-                    <li onclick="filterProducts('Pith', this)">अस्सल पिठे</li>
-                    <li onclick="filterProducts('Loncha', this)">घरगुती लोणची</li>
-                </ul>
-            </div>
-            <div>
-                <h2 style="margin-top:0; font-size: 22px; border-left: 5px solid var(--primary); padding-left: 10px; margin-bottom: 20px;">आमची प्रमुख उत्पादने</h2>
-                <div class="products-grid" id="shopProductsContainer">
-                    <p>डेटा लोड होत आहे... ⏳</p>
-                </div>
-            </div>
+        <!-- Featured Section Preview -->
+        <div style="text-align: center; margin: 50px 0 30px;">
+            <h2 style="font-size: 28px; color: var(--dark-text);">कोकणातील अस्सल मेजवानी</h2>
+            <p style="color: var(--gray-text);">आमच्या पारंपरिक आणि घरगुती उत्पादनांची श्रेणी तपासा.</p>
+            <button class="btn-banner" style="margin-top: 15px;" onclick="location.href='products.html'">दुकानात जा 🛍️</button>
         </div>
     </div>
 
-    <!-- ABOUT PAGE -->
-    <div id="about" class="container page-section">
-        <div class="cart-box" style="max-width: 800px; line-height: 1.8;">
-            <h2 style="color: var(--primary); margin-top: 0;">आमच्याबद्दल (About Us)</h2>
-            <p><strong>'कोकण वारसा'</strong> हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे.</p>
-            <p>आमच्याकडे मिळणारे हापूस आंबे, घरगुती लोणची, मालवणी मसाले आणि इतर सर्व उत्पादने ही कोकणातील शेतकऱ्यांकडून आणि महिला बचत गटांकडून अतिशय काळजीपूर्वक आणि शुद्ध स्वरूपात तयार केली जातात.</p>
-        </div>
-    </div>
-
-    <!-- CONTACT PAGE -->
-    <div id="contact" class="container page-section">
-        <div class="cart-box" style="max-width: 600px; text-align: center;">
-            <h2 style="color: var(--primary); margin-top: 0;">संपर्क करा (Contact Us)</h2>
-            <p style="color: var(--gray-text);">काही शंका किंवा ऑर्डरबद्दल विचारणा करायची आहे का? आम्हाला खालील माध्यमातून संपर्क करा:</p>
-            <p style="font-size: 18px; font-weight: bold; margin: 15px 0;"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> +91 9823xxxxxx</p>
-            <p style="font-size: 16px; color: var(--gray-text);"><i class="fas fa-envelope" style="color: var(--primary);"></i> support@kokanvarsa.shop</p>
-            <p style="font-size: 15px; color: var(--gray-text);"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> कोकण, महाराष्ट्र, भारत</p>
-        </div>
-    </div>
-
-    <!-- CART PAGE -->
-    <div id="cart" class="container page-section">
-        <div class="cart-box">
-            <h2 style="margin-top:0; color:var(--primary);">तुमचे शॉपिंग कार्ट</h2>
-            <div id="cartItemsContainer">
-                <p>कार्ट रिकामे आहे.</p>
-            </div>
-            <h3 style="margin-top: 20px; display: flex; justify-content: space-between;">
-                <span>एकूण रक्कम:</span> 
-                <span id="cartTotalPrice" style="color:var(--primary);">₹0</span>
-            </h3>
-            
-            <div style="margin-top: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h3 style="margin-top:0; color:var(--primary);">डिलिव्हरी माहिती व पत्ता</h3>
-                <form id="orderForm" action="https://kokanvarsa-backend.admin-craftee.workers.dev/order" method="POST">
-                    <input type="hidden" name="order_details" id="hiddenOrderDetails">
-                    <input type="hidden" name="total_amount" id="hiddenTotalAmount">
-                    
-                    <label style="font-size:13px; font-weight:600;">पूर्ण नाव</label>
-                    <input type="text" name="customer_name" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="तुमचे नाव">
-                    
-                    <label style="font-size:13px; font-weight:600;">मोबाईल नंबर</label>
-                    <input type="tel" name="phone" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="१० अंकी मोबाईल नंबर">
-                    
-                    <label style="font-size:13px; font-weight:600;">पत्ता</label>
-                    <textarea name="address" rows="3" required style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="पत्ता पिनकोडसह"></textarea>
-                    
-                    <button type="submit" class="btn-banner" style="width: 100%; border-radius: 8px;" onclick="prepareOrderData()">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js?v=6"></script>
-
-    <!-- 🌟 PROFESSIONAL FOOTER -->
-    <footer style="background-color: #1A3C2A; color: #E8F5E9; padding: 50px 20px 20px; margin-top: 50px;">
-        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
-            
-            <!-- Column 1: Brand Info -->
-            <div>
-                <h3 style="color: #fff; font-size: 20px; margin-bottom: 15px; border-bottom: 2px solid #2D6A4F; display: inline-block; padding-bottom: 5px;">कोकण वारसा</h3>
-                <p style="color: #C8E6C9; font-size: 14px; line-height: 1.6;">
-                    कोकणातील अस्सल, नैसर्गिक आणि पारंपरिक पदार्थ थेट शेतकऱ्यांकडून आणि घरगुती उद्योग करणाऱ्या महिलांकडून तुमच्या दारात.
-                </p>
-                <div style="display: flex; gap: 15px; margin-top: 15px; font-size: 18px;">
-                    <i class="fab fa-facebook" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#D4A373'" onmouseout="this.style.color='#fff'"></i>
-                    <i class="fab fa-instagram" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#D4A373'" onmouseout="this.style.color='#fff'"></i>
-                    <i class="fab fa-whatsapp" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#D4A373'" onmouseout="this.style.color='#fff'"></i>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div>
-                <h3 style="color: #fff; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #2D6A4F; display: inline-block; padding-bottom: 5px;">महत्त्वाच्या लिंक्स</h3>
-                <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; display: flex; flex-direction: column; gap: 10px;">
-                    <li onclick="navigate('shop')" style="cursor: pointer; color: #C8E6C9;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C8E6C9'">होम / सर्व उत्पादने</li>
-                    <li onclick="navigate('about')" style="cursor: pointer; color: #C8E6C9;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C8E6C9'">आमच्याबद्दल</li>
-                    <li onclick="navigate('contact')" style="cursor: pointer; color: #C8E6C9;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C8E6C9'">संपर्क करा</li>
-                    <li onclick="navigate('cart')" style="cursor: pointer; color: #C8E6C9;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C8E6C9'">शॉपिंग कार्ट</li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Contact Info -->
-            <div>
-                <h3 style="color: #fff; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #2D6A4F; display: inline-block; padding-bottom: 5px;">संपर्क माहिती</h3>
-                <p style="color: #C8E6C9; font-size: 14px; margin: 8px 0;"><i class="fas fa-map-marker-alt" style="color: #D4A373; margin-right: 8px;"></i> कोकण, महाराष्ट्र, भारत</p>
-                <p style="color: #C8E6C9; font-size: 14px; margin: 8px 0;"><i class="fas fa-phone-alt" style="color: #D4A373; margin-right: 8px;"></i> +91 9823xxxxxx</p>
-                <p style="color: #C8E6C9; font-size: 14px; margin: 8px 0;"><i class="fas fa-envelope" style="color: #D4A373; margin-right: 8px;"></i> support@kokanvarsa.shop</p>
-            </div>
-
-        </div>
-
-        <!-- Copyright Bottom Bar -->
-        <div style="max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; font-size: 13px; color: #A5D6A7;">
-            <p style="margin: 0;">© 2026 कोकण वारसा. सर्वाधिकार सुरक्षित. | Designed with ❤️ for Kokan</p>
+    <!-- Footer -->
+    <footer style="background-color: #1A3C2A; color: #E8F5E9; padding: 40px 20px 20px; margin-top: 50px;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h3 style="color: #fff; margin-bottom: 10px;">कोकण वारसा</h3>
+            <p style="color: #C8E6C9; font-size: 14px;">© 2026 कोकण वारसा. सर्वाधिकार सुरक्षित.</p>
         </div>
     </footer>
-    
+
 </body>
 </html>
