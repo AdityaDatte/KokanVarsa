@@ -6,56 +6,51 @@
     <title>कोकण वारसा - अस्सल कोकणी स्वाद</title>
     <!-- FontAwesome & Google Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #d35400; --bg: #f9f9f9; --text: #333; --white: #fff; }
-        body { font-family: 'Noto Sans Marathi', sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
-        header { background: var(--white); box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo h1 { margin: 0; color: var(--primary); font-size: 24px; }
-        .nav-links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
-        .nav-links li { cursor: pointer; font-weight: 600; color: #555; }
-        .nav-links li:hover, .nav-links li.active { color: var(--primary); }
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .shop-layout { display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
-        .category-sidebar { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); height: fit-content; }
-        .category-list { list-style: none; padding: 0; margin: 0; }
-        .category-list li { padding: 10px 12px; margin-bottom: 5px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #555; }
-        .category-list li:hover, .category-list li.active { background: #fbeee6; color: var(--primary); }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
-        .product-card img { width: 100%; height: 180px; object-fit: cover; }
-        .product-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 16px; font-weight: 600; margin: 0 0 5px 0; }
-        .product-price { font-size: 16px; color: var(--primary); font-weight: bold; margin: 10px 0; }
-        .btn-cart { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: auto; width: 100%; }
-        .cart-box { background: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-        @media(max-width: 768px) { .shop-layout { grid-template-columns: 1fr; } }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- वेगळी CSS फाईल लिंक -->
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <div class="nav-container">
-            <div class="logo">
+            <div class="logo-area">
                 <h1>कोकण वारसा</h1>
-                <small style="color:gray;">अस्सल कोकणी स्वाद</small>
+                <p>अस्सल कोकणी स्वाद</p>
             </div>
             <ul class="nav-links">
                 <li onclick="navigate('shop')" class="active">उत्पादने</li>
-                <li onclick="navigate('cart')">कार्ट (<span id="cartCount">0</span>)</li>
+                <li onclick="navigate('cart')" class="cart-icon-wrapper">
+                    <i class="fas fa-shopping-cart" style="font-size: 18px;"></i> कार्ट 
+                    <span class="cart-badge" id="cartCount">0</span>
+                </li>
             </ul>
         </div>
     </header>
 
-    <!-- SHOP PAGE -->
+    <!-- SHOP / HOME PAGE WITH HERO BANNER -->
     <div id="shop" class="container page-section active">
-        <div class="shop-layout">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h2>अस्सल कोकणी चव, थेट तुमच्या दारात!</h2>
+                <p>कोकणच्या मातीतील गोडवा आणि आपुलकी, आता तुमच्या घरी.</p>
+                <button class="btn-banner" onclick="window.scrollTo({top: 500, behavior: 'smooth'})">आता खरेदी करा</button>
+            </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges-bar">
+            <div class="trust-badge-item"><i class="fas fa-leaf" style="color:var(--green-badge);"></i> १००% नैसर्गिक</div>
+            <div class="trust-badge-item"><i class="fas fa-seedling" style="color:var(--green-badge);"></i> पारंपारिक चव</div>
+            <div class="trust-badge-item"><i class="fas fa-handshake" style="color:var(--green-badge);"></i> थेट शेतकऱ्यांकडून</div>
+        </div>
+
+        <!-- Main Layout with Category Sidebar & Products -->
+        <div class="shop-layout" style="margin-top: 30px;">
             <div class="category-sidebar">
-                <h3 style="margin-top:0; border-bottom: 2px solid #eee; padding-bottom: 10px;">कॅटेगरी</h3>
+                <h3>कॅटेगरी</h3>
                 <ul class="category-list" id="categoryList">
                     <li class="active" onclick="filterProducts('All', this)">सर्व उत्पादने</li>
                     <li onclick="filterProducts('Amsul', this)">आमसूळ आणि कोकण</li>
@@ -65,6 +60,7 @@
                 </ul>
             </div>
             <div>
+                <h2 style="margin-top:0; font-size: 22px; border-left: 5px solid var(--primary); padding-left: 10px; margin-bottom: 20px;">आमची प्रमुख उत्पादने</h2>
                 <div class="products-grid" id="shopProductsContainer">
                     <p>डेटा लोड होत आहे... ⏳</p>
                 </div>
@@ -75,151 +71,37 @@
     <!-- CART PAGE -->
     <div id="cart" class="container page-section">
         <div class="cart-box">
-            <h2>तुमचे शॉपिंग कार्ट</h2>
+            <h2 style="margin-top:0; color:var(--primary);">तुमचे शॉपिंग कार्ट</h2>
             <div id="cartItemsContainer">
                 <p>कार्ट रिकामे आहे.</p>
             </div>
-            <h3 style="margin-top: 20px;">एकूण: <span id="cartTotalPrice" style="color:var(--primary);">₹0</span></h3>
+            <h3 style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <span>एकूण रक्कम:</span> 
+                <span id="cartTotalPrice" style="color:var(--primary);">₹0</span>
+            </h3>
             
-            <div style="margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 6px;">
-                <h3>डिलिव्हरी माहिती</h3>
+            <div style="margin-top: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h3 style="margin-top:0; color:var(--primary);">डिलिव्हरी माहिती व पत्ता</h3>
                 <form id="orderForm" action="https://kokanvarsa-backend.admin-craftee.workers.dev/order" method="POST">
                     <input type="hidden" name="order_details" id="hiddenOrderDetails">
                     <input type="hidden" name="total_amount" id="hiddenTotalAmount">
                     
                     <label style="font-size:13px; font-weight:600;">पूर्ण नाव</label>
-                    <input type="text" name="customer_name" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;" placeholder="तुमचे नाव">
+                    <input type="text" name="customer_name" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="तुमचे नाव">
                     
                     <label style="font-size:13px; font-weight:600;">मोबाईल नंबर</label>
-                    <input type="tel" name="phone" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;" placeholder="१० अंकी मोबाईल नंबर">
+                    <input type="tel" name="phone" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="१० अंकी मोबाईल नंबर">
                     
                     <label style="font-size:13px; font-weight:600;">पत्ता</label>
-                    <textarea name="address" rows="3" required style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;" placeholder="पत्ता पिनकोडसह"></textarea>
+                    <textarea name="address" rows="3" required style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="पत्ता पिनकोडसह"></textarea>
                     
-                    <button type="submit" class="btn-cart" onclick="prepareOrderData()">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
+                    <button type="submit" class="btn-banner" style="width: 100%; border-radius: 8px;" onclick="prepareOrderData()">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <script>
-        const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
-        let allProducts = [];
-        let cart = [];
-
-        window.onload = async () => {
-            try {
-                const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
-                allProducts = await res.json();
-                renderProducts(allProducts);
-            } catch (err) {
-                document.getElementById('shopProductsContainer').innerHTML = "<p style='color:red;'>डेटा लोड करण्यात त्रुटी आली!</p>";
-            }
-        };
-
-        function renderProducts(products) {
-            const container = document.getElementById('shopProductsContainer');
-            container.innerHTML = "";
-            if(products.length === 0) {
-                container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
-                return;
-            }
-            products.forEach(p => {
-                container.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.image_url}" alt="${p.name}">
-                        <div class="product-info">
-                            <h4 class="product-title">${p.name}</h4>
-                            <small style="color:gray;">${p.unit || '१ नग'}</small>
-                            <div class="product-price">₹${p.price}</div>
-                            <button class="btn-cart" onclick="addToCart(${p.id})">कार्टमध्ये जोडा</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function filterProducts(category, element) {
-            document.querySelectorAll('.category-list li').forEach(li => li.classList.remove('active'));
-            element.classList.add('active');
-            
-            if(category === 'All') {
-                renderProducts(allProducts);
-            } else {
-                const filtered = allProducts.filter(p => p.category === category);
-                renderProducts(filtered);
-            }
-        }
-
-        function navigate(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
-            event.target.classList.add('active');
-            if(pageId === 'cart') renderCart();
-        }
-
-        function addToCart(id) {
-            const product = allProducts.find(p => p.id === id);
-            cart.push(product);
-            document.getElementById('cartCount').innerText = cart.length;
-            alert(product.name + ' कार्टमध्ये जोडले गेले!');
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cartItemsContainer');
-            container.innerHTML = "";
-            if(cart.length === 0) {
-                container.innerHTML = "<p>कार्ट रिकामे आहे.</p>";
-                document.getElementById('cartTotalPrice').innerText = "₹0";
-                return;
-            }
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <span>${item.name} (${item.unit || '१ नग'})</span>
-                        <span>₹${item.price} <button onclick="removeFromCart(${index})" style="background:red; color:white; border:none; padding:3px 6px; border-radius:4px; margin-left:10px; cursor:pointer;">X</button></span>
-                    </div>
-                `;
-            });
-            document.getElementById('cartTotalPrice').innerText = "₹" + total;
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            document.getElementById('cartCount').innerText = cart.length;
-            renderCart();
-        }
-
-        function prepareOrderData() {
-            if(cart.length === 0) {
-                alert("कार्ट रिकामे आहे!");
-                event.preventDefault();
-                return;
-            }
-            let details = cart.map((item, i) => `${i+1}. ${item.name} - ₹${item.price}`).join(" || ");
-            let total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('hiddenOrderDetails').value = details;
-            document.getElementById('hiddenTotalAmount').value = "₹" + total;
-        }
-
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            try {
-                const res = await fetch(`${API_URL}/order`, { method: "POST", body: formData });
-                const result = await res.json();
-                if(result.success) {
-                    window.location.href = "https://rzp.io/rzp/iOUTiNYy";
-                } else {
-                    alert("ऑर्डर प्रोसेस करताना त्रुटी आली.");
-                }
-            } catch(err) {
-                alert("सर्व्हरशी संपर्क होऊ शकला नाही.");
-            }
-        });
-    </script>
+    <!-- वेगळी JS फाईल लिंक -->
+    <script src="script.js?v=5"></script>
 </body>
 </html>
