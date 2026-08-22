@@ -22,9 +22,7 @@ function renderProducts(products) {
     products.forEach(p => {
         container.innerHTML += `
             <div class="product-card">
-                <div class="product-img-wrap">
-                    <img src="${p.image_url}" alt="${p.name}">
-                </div>
+                <img src="${p.image_url}" alt="${p.name}">
                 <div class="product-info">
                     <h4 class="product-title">${p.name}</h4>
                     <small style="color:gray;">${p.unit || '१ नग'}</small>
