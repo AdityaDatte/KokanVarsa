@@ -7,25 +7,34 @@
     <!-- FontAwesome & Google Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- वेगळी CSS फाईल लिंक -->
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
     <!-- Header -->
     <header>
         <div class="nav-container">
-            <div class="logo-area">
+            <div class="logo-area" onclick="navigate('shop')" style="cursor: pointer;">
                 <h1>कोकण वारसा</h1>
                 <p>अस्सल कोकणी स्वाद</p>
             </div>
-            <ul class="nav-links">
-                <li onclick="navigate('shop')" class="active">उत्पादने</li>
-                <li onclick="navigate('cart')" class="cart-icon-wrapper">
-                    <i class="fas fa-shopping-cart" style="font-size: 18px;"></i> कार्ट 
-                    <span class="cart-badge" id="cartCount">0</span>
-                </li>
+            <ul class="nav-links" id="nav-menu">
+                <li><a onclick="navigate('shop')" class="active" style="color:inherit; text-decoration:none;">होम</a></li>
+                <li><a onclick="navigate('shop')" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
+                <li><a onclick="navigate('about')" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a onclick="navigate('contact')" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
+            <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
+                <!-- Search Bar -->
+                <div class="search-box" style="position: relative;">
+                    <input type="text" id="searchInput" placeholder="उत्पादने शोधा..." oninput="handleSearch(this.value)" style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 150px; transition: width 0.3s;">
+                </div>
+                <!-- Cart Icon -->
+                <div class="cart-icon-wrapper" onclick="navigate('cart')" style="cursor: pointer; position: relative; font-size: 18px;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -68,6 +77,26 @@
         </div>
     </div>
 
+    <!-- ABOUT PAGE -->
+    <div id="about" class="container page-section">
+        <div class="cart-box" style="max-width: 800px; line-height: 1.8;">
+            <h2 style="color: var(--primary); margin-top: 0;">आमच्याबद्दल (About Us)</h2>
+            <p><strong>'कोकण वारसा'</strong> हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे.</p>
+            <p>आमच्याकडे मिळणारे हापूस आंबे, घरगुती लोणची, मालवणी मसाले आणि इतर सर्व उत्पादने ही कोकणातील शेतकऱ्यांकडून आणि महिला बचत गटांकडून अतिशय काळजीपूर्वक आणि शुद्ध स्वरूपात तयार केली जातात.</p>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="container page-section">
+        <div class="cart-box" style="max-width: 600px; text-align: center;">
+            <h2 style="color: var(--primary); margin-top: 0;">संपर्क करा (Contact Us)</h2>
+            <p style="color: var(--gray-text);">काही शंका किंवा ऑर्डरबद्दल विचारणा करायची आहे का? आम्हाला खालील माध्यमातून संपर्क करा:</p>
+            <p style="font-size: 18px; font-weight: bold; margin: 15px 0;"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> +91 9823xxxxxx</p>
+            <p style="font-size: 16px; color: var(--gray-text);"><i class="fas fa-envelope" style="color: var(--primary);"></i> support@kokanvarsa.shop</p>
+            <p style="font-size: 15px; color: var(--gray-text);"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> कोकण, महाराष्ट्र, भारत</p>
+        </div>
+    </div>
+
     <!-- CART PAGE -->
     <div id="cart" class="container page-section">
         <div class="cart-box">
@@ -101,7 +130,6 @@
         </div>
     </div>
 
-    <!-- वेगळी JS फाईल लिंक -->
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 </body>
 </html>
