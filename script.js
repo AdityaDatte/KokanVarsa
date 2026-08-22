@@ -1,201 +1,119 @@
-let allProducts = []; 
+const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
+let allProducts = [];
+let cart = [];
 
 window.onload = async () => {
     try {
-        const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/products", { cache: "no-store" });
-        const dbProducts = await response.json();
-
-        allProducts = dbProducts.map(p => ({
-            id: p.id,
-            name: p.name,
-            cat: p.category || "All", 
-            price: p.price,
-            unit: p.unit || "१ नग", 
-            rating: 5.0,
-            img: p.image_url,
-            badge: p.stock_status === "In Stock" ? "उपलब्ध" : "Out of Stock"
-        }));
-
-        renderProductsList("homeProductsContainer", allProducts);
-        renderProductsList("shopProductsContainer", allProducts);
-
-    } catch (error) {
-        console.error("प्रॉडक्ट्स लोड करताना एरर आला:", error);
-        document.getElementById("homeProductsContainer").innerHTML = "<p style='color:red;'>प्रॉडक्ट्स लोड होऊ शकले नाहीत. इंटरनेट तपासा!</p>";
+        const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+        allProducts = await res.json();
+        renderProducts(allProducts);
+    } catch (err) {
+        document.getElementById('shopProductsContainer').innerHTML = "<p style='color:red;'>डेटा लोड करण्यात त्रुटी आली!</p>";
     }
 };
 
-let cartArray = [];
-
-function navigate(pageId) {
-    document.querySelectorAll(".page-section").forEach((page) => page.classList.remove("active"));
-    document.getElementById(pageId).classList.add("active");
-
-    const navLinks = document.querySelectorAll("#nav-menu a");
-    navLinks.forEach((link) => link.classList.remove("active"));
-    if (pageId === "home") navLinks[0].classList.add("active");
-    if (pageId === "shop") navLinks[1].classList.add("active");
-    if (pageId === "about") navLinks[2].classList.add("active");
-    if (pageId === "contact") {}; // optional
-
-    if (pageId === "cart") renderCartItems();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-// नवीन प्रोफेशनल डिझाईननुसार कार्ड जनरेट करणे
-function generateProductCard(product) {
-    return `
-        <div class="product-card">
-            <div class="card-img-wrap">
-                <img src="${product.img}" alt="${product.name}">
-                <div class="badge-tag">${product.badge}</div>
-            </div>
-            <div class="card-body">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="rating">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                </div>
-                <p class="product-price">
-                    ₹${product.price} 
-                    <span style="font-size: 13px; color: var(--gray-text); font-weight: 500;">/ ${product.unit}</span>
-                </p>
-                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
-                    <i class="fas fa-cart-plus"></i> Add to Cart
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-function renderProductsList(containerId, productsToRender) {
-    const container = document.getElementById(containerId);
+function renderProducts(products) {
+    const container = document.getElementById('shopProductsContainer');
     container.innerHTML = "";
-    if(productsToRender.length === 0) {
-        container.innerHTML = "<p style='color:gray;'>येथे कोणतीही उत्पादने नाहीत.</p>";
+    if(products.length === 0) {
+        container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
         return;
     }
-    productsToRender.forEach((p) => (container.innerHTML += generateProductCard(p)));
-}
-
-function filterProducts(category, element) {
-    document.querySelectorAll(".category-list li").forEach((li) => li.classList.remove("active"));
-    element.classList.add("active");
-    let filtered = category === "All" ? allProducts : allProducts.filter((p) => p.cat === category);
-    renderProductsList("shopProductsContainer", filtered);
-}
-
-function addToCart(productId) {
-    const product = allProducts.find((p) => p.id === productId);
-    cartArray.push(product);
-
-    document.getElementById("cartBadge").textContent = cartArray.length;
-    showToast(`<b>${product.name}</b> कार्टमध्ये जोडले गेले!`);
-}
-
-function renderCartItems() {
-    const container = document.getElementById("cartItemsRenderArea");
-    const totalUI = document.getElementById("cartTotalUI");
-
-    if (cartArray.length === 0) {
-        container.innerHTML = '<p style="color:#888; text-align:center; padding: 30px;">तुमचे कार्ट रिकामे आहे. <br><br> <button onclick="navigate(\'shop\')" class="btn-banner">खरेदी करा</button></p>';
-        totalUI.textContent = "₹0";
-        return;
-    }
-
-    let html = "";
-    let totalAmount = 0;
-
-    cartArray.forEach((item, index) => {
-        totalAmount += item.price;
-        html += `
-            <div class="cart-item-row">
-                <div class="cart-item-info">
-                    <img src="${item.img}" alt="${item.name}">
-                    <div>
-                        <h4 style="margin: 0; font-size: 16px; color: var(--dark-text);">${item.name}</h4>
-                        <small style="color:var(--gray-text);">₹${item.price} / ${item.unit}</small>
-                    </div>
+    products.forEach(p => {
+        container.innerHTML += `
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="${p.image_url}" alt="${p.name}">
                 </div>
-                <div class="cart-item-price">
-                    <span style="font-size: 16px; color: var(--primary); font-weight:bold;">₹${item.price}</span>
-                    <button class="remove-btn" onclick="removeFromCart(${index})" title="काढून टाका">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                <div class="product-info">
+                    <h4 class="product-title">${p.name}</h4>
+                    <small style="color:gray;">${p.unit || '१ नग'}</small>
+                    <div class="product-price">₹${p.price}</div>
+                    <button class="btn-cart" onclick="addToCart(${p.id})">कार्टमध्ये जोडा</button>
                 </div>
             </div>
         `;
     });
+}
 
-    container.innerHTML = html;
-    totalUI.textContent = "₹" + totalAmount;
+function filterProducts(category, element) {
+    document.querySelectorAll('.category-list li').forEach(li => li.classList.remove('active'));
+    element.classList.add('active');
+    
+    if(category === 'All') {
+        renderProducts(allProducts);
+    } else {
+        const filtered = allProducts.filter(p => p.category === category);
+        renderProducts(filtered);
+    }
+}
+
+function navigate(pageId) {
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
+    event.target.classList.add('active');
+    if(pageId === 'cart') renderCart();
+}
+
+function addToCart(id) {
+    const product = allProducts.find(p => p.id === id);
+    cart.push(product);
+    document.getElementById('cartCount').innerText = cart.length;
+    alert(product.name + ' कार्टमध्ये जोडले गेले!');
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItemsContainer');
+    container.innerHTML = "";
+    if(cart.length === 0) {
+        container.innerHTML = "<p>कार्ट रिकामे आहे.</p>";
+        document.getElementById('cartTotalPrice').innerText = "₹0";
+        return;
+    }
+    let total = 0;
+    cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+            <div class="cart-item">
+                <span>${item.name} (${item.unit || '१ नग'})</span>
+                <span>₹${item.price} <button onclick="removeFromCart(${index})" style="background:red; color:white; border:none; padding:3px 6px; border-radius:4px; margin-left:10px; cursor:pointer;">X</button></span>
+            </div>
+        `;
+    });
+    document.getElementById('cartTotalPrice').innerText = "₹" + total;
 }
 
 function removeFromCart(index) {
-    cartArray.splice(index, 1);
-    document.getElementById("cartBadge").textContent = cartArray.length;
-    renderCartItems();
+    cart.splice(index, 1);
+    document.getElementById('cartCount').innerText = cart.length;
+    renderCart();
 }
 
 function prepareOrderData() {
-    if (cartArray.length === 0) {
-        alert("तुमच्या कार्टमध्ये कोणतीही उत्पादने नाहीत! कृपया आधी उत्पादने जोडा.");
+    if(cart.length === 0) {
+        alert("कार्ट रिकामे आहे!");
         event.preventDefault();
         return;
     }
-
-    let detailsString = cartArray.map((item, idx) => `${idx + 1}. ${item.name} (${item.unit}) - ₹${item.price}`).join(" || ");
-    let total = cartArray.reduce((sum, item) => sum + item.price, 0);
-
-    document.getElementById("hiddenOrderDetails").value = detailsString;
-    document.getElementById("hiddenTotalAmount").value = "₹" + total;
+    let details = cart.map((item, i) => `${i+1}. ${item.name} - ₹${item.price}`).join(" || ");
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById('hiddenOrderDetails').value = details;
+    document.getElementById('hiddenTotalAmount').value = "₹" + total;
 }
 
-function showToast(message) {
-    const container = document.getElementById("toast-container");
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.innerHTML = message;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-}
-
-// सर्च करण्यासाठी
-document.getElementById("searchInput").addEventListener("input", function (e) {
-    const term = e.target.value.toLowerCase();
-    if (term.length > 0) navigate("shop");
-    const filtered = allProducts.filter((p) => p.name.toLowerCase().includes(term));
-    renderProductsList("shopProductsContainer", filtered);
-});
-
-// ऑर्डर फॉर्म सबमिट झाल्यावर
-document.getElementById("orderForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); 
-
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = "ऑर्डर प्रोसेस होत आहे... ⏳";
-    submitBtn.disabled = true;
-
+document.getElementById('orderForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     const formData = new FormData(this);
-
     try {
-        const response = await fetch("https://kokanvarsa-backend.admin-craftee.workers.dev/order", {
-            method: "POST",
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            window.location.href = "https://rzp.io/rzp/iOUTiNYy"; 
+        const res = await fetch(`${API_URL}/order`, { method: "POST", body: formData });
+        const result = await res.json();
+        if(result.success) {
+            window.location.href = "https://rzp.io/rzp/iOUTiNYy";
         } else {
-            alert("ऑर्डर नोंदवताना काहीतरी अडचण आली. कृपया पुन्हा प्रयत्न करा.");
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
+            alert("ऑर्डर प्रोसेस करताना त्रुटी आली.");
         }
-    } catch (error) {
-        alert("सर्व्हरशी संपर्क होऊ शकला नाही. इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा!");
-        submitBtn.innerHTML = originalBtnText;
-        submitBtn.disabled = false;
+    } catch(err) {
+        alert("सर्व्हरशी संपर्क होऊ शकला नाही.");
     }
 });
