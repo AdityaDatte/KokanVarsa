@@ -20,8 +20,12 @@ function renderProducts(products) {
         return;
     }
     products.forEach(p => {
+        // उपलब्धता बॅज ठरवणे (In Stock असल्यास 'उपलब्ध')
+        let stockText = p.stock_status || "उपलब्ध";
+
         container.innerHTML += `
             <div class="product-card">
+                <div class="stock-badge"><i class="fas fa-check-circle"></i> ${stockText}</div>
                 <div class="product-img-wrap">
                     <img src="${p.image_url}" alt="${p.name}">
                 </div>
@@ -54,7 +58,6 @@ function navigate(pageId) {
     document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     
-    // Update active class in navbar
     const links = document.querySelectorAll('#nav-menu li a');
     links.forEach(l => l.classList.remove('active'));
     
@@ -71,7 +74,6 @@ function navigate(pageId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Search Functionality
 function handleSearch(query) {
     const term = query.toLowerCase().trim();
     if(term === "") {
