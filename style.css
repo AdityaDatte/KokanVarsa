@@ -162,3 +162,7 @@ header {
 @media(max-width: 768px) { 
     .shop-layout { grid-template-columns: 1fr; } 
 }
+.hero-banner {
+    width: 100%;
+    box-sizing: border-box;
+}
