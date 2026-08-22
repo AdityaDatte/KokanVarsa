@@ -125,12 +125,25 @@
         let savedPassword = sessionStorage.getItem("adminPass");
         let editingProductId = null;
 
+       // लॉगिन बटण काम करण्यासाठीचा एकदम पक्का कोड
         async function checkLogin() {
             const passInput = document.getElementById('adminPassword').value;
             const btn = document.querySelector('.login-box button');
+            
+            if(!passInput) {
+                alert("कृपया पासवर्ड टाका!");
+                return;
+            }
+
             btn.innerText = "चेक करत आहे... ⏳";
+            btn.disabled = true;
+
             try {
-                const res = await fetch(`${API_URL}/verify-admin`, { method: "POST", headers: { "x-admin-pass": passInput } });
+                const res = await fetch(`${API_URL}/verify-admin`, { 
+                    method: "POST", 
+                    headers: { "x-admin-pass": passInput } 
+                });
+
                 if (res.ok) {
                     sessionStorage.setItem("adminPass", passInput);
                     savedPassword = passInput;
@@ -140,6 +153,15 @@
                 } else {
                     document.getElementById('loginError').style.display = "block";
                     btn.innerText = "लॉगिन करा";
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                document.getElementById('loginError').innerText = "सर्व्हरशी संपर्क तुटला!";
+                document.getElementById('loginError').style.display = "block";
+                btn.innerText = "लॉगिन करा";
+                btn.disabled = false;
+            }
+        }
                 }
             } catch (error) {
                 document.getElementById('loginError').innerText = "सर्व्हरशी संपर्क तुटला!";
