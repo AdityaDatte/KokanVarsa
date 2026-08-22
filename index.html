@@ -1,376 +1,148 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="mr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KokanVarsa - Authentic Kokni Products</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कोकण वारसा - अस्सल कोकणी स्वाद</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- वेगळी CSS फाईल लिंक केली -->
+    <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
 
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <!-- CSS Link -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-
-  <body>
     <!-- Header -->
     <header>
-      <div class="logo-area" onclick="navigate('home')">
-        <img
-          src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg"
-          alt="कोकण वारसा लोगो"
-          class="logo-img"
-        />
-        <div class="logo-text">
-          <h1>कोकण वारसा</h1>
-          <span>KOKAN VARSA</span>
+        <div class="nav-container">
+            <div class="logo-area">
+                <h1>कोकण वारसा</h1>
+                <p>अस्सल कोकणी स्वाद</p>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a onclick="navigate('home')" class="active">होम</a></li>
+                <li><a onclick="navigate('shop')">उत्पादने</a></li>
+                <li><a onclick="navigate('about')">आमच्याबद्दल</a></li>
+                <li><a onclick="navigate('contact')">संपर्क</a></li>
+            </ul>
+            <div class="nav-icons">
+                <i class="fas fa-search" onclick="navigate('shop')"></i>
+                <div class="cart-icon-wrapper" onclick="navigate('cart')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <nav>
-        <ul id="nav-menu">
-          <li><a onclick="navigate('home')" class="active">मुख्यपृष्ठ</a></li>
-          <li><a onclick="navigate('shop')">उत्पादने</a></li>
-          <li><a onclick="navigate('about')">आमच्याबद्दल</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <div class="search-box">
-          <i class="fas fa-search" style="color: #ccc; margin-right: 5px"></i>
-          <input type="text" id="searchInput" placeholder="शोधा..." />
-        </div>
-        <div class="icons">
-          <i class="fas fa-shopping-cart" onclick="navigate('cart')">
-            <span class="cart-count" id="cartBadge">0</span>
-          </i>
-        </div>
-      </div>
     </header>
 
-    <main class="container">
-      <!-- 1. HOME PAGE -->
-      <section id="home" class="page-section active">
-        <div class="hero-section">
-          <div class="hero-brand-box">
-            <h2>कोकणचा अस्सल आस्वाद!</h2>
-            <p>
-              अस्सल आणि पारंपरिक उत्पादनांद्वारे कोकणचा वारसा तुमच्या घरी आणा.
-              थेट शेतकऱ्यांकडून आणि महिला बचत गटांकडून.
-            </p>
-            <button class="btn-orange" onclick="navigate('shop')">
-              आता खरेदी करा
-            </button>
-          </div>
-          <div class="hero-image">
-            <img
-              src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-              alt="Konkan Coast"
-            />
-          </div>
+    <!-- HOME PAGE -->
+    <section id="home" class="page-section active">
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h2>अस्सल कोकणी चव, थेट तुमच्या दारात!</h2>
+                <p>कोकणच्या मातीतील गोडवा आणि आपुलकी, आता तुमच्या घरी.</p>
+                <button class="btn-banner" onclick="navigate('shop')">आता खरेदी करा</button>
+            </div>
         </div>
 
-        <!-- फक्त टायटलला section-title क्लास द्यायचा आहे -->
-        <h2 class="section-title">कोकण वारसाच का ?</h2>
-
-        <!-- डब्यांचा विभाग टायटलच्या बाहेर (खाली) असावा -->
-        <div class="features-section">
-          <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-leaf"></i></div>
-            <h4>१००% नैसर्गिक</h4>
-            <p>कोणत्याही रासायनिक प्रक्रियेविना शुद्ध आणि घरगुती उत्पादने.</p>
-          </div>
-
-          <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-heart"></i></div>
-            <h4>आईच्या हातची चव</h4>
-            <p>
-              अगदी घरच्यासारखीच चव, पारंपरिक आणि जुन्या पद्धतीने बनवलेली अस्सल
-              उत्पादने.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-truck"></i></div>
-            <h4>सुरक्षित डिलिव्हरी</h4>
-            <p>संपूर्ण महाराष्ट्रात वेळेवर आणि सुरक्षित पोहोच.</p>
-          </div>
-
-          <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-            <h4>सुरक्षित पेमेंट</h4>
-            <p>१००% सुरक्षित आणि सोपी ऑनलाइन पेमेंट सुविधा.</p>
-          </div>
+        <div class="trust-badges-bar">
+            <div class="trust-badge-item"><i class="fas fa-leaf"></i> १००% नैसर्गिक</div>
+            <div class="trust-badge-item"><i class="fas fa-seedling"></i> पारंपारिक चव</div>
+            <div class="trust-badge-item"><i class="fas fa-handshake"></i> थेट शेतकऱ्यांकडून</div>
         </div>
-        <h2 class="section-title">लोकप्रिय उत्पादने</h2>
-        <div class="products-grid" id="homeProductsContainer"></div>
-      </section>
 
-      <!-- 2. SHOP PAGE -->
-      <section id="shop" class="page-section">
-        <h2 class="section-title">आमची सर्व उत्पादने</h2>
+        <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+            <h2 class="section-title">आमची प्रमुख उत्पादने</h2>
+            <div class="products-grid" id="homeProductsContainer">
+                <!-- Data from DB -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP PAGE -->
+    <section id="shop" class="page-section">
         <div class="shop-layout">
-          <div class="sidebar">
-            <h3
-              style="
-                color: var(--primary-color);
-                margin-bottom: 15px;
-                border-bottom: 2px solid var(--orange);
-                padding-bottom: 10px;
-              "
-            >
-              कॅटेगरी
-            </h3>
-            <ul class="category-list" id="categoryList">
-              <li class="active" onclick="filterProducts('All', this)">
-                सर्व उत्पादने
-              </li>
-              <li onclick="filterProducts('Amsul', this)">आमसूल आणि कोकम</li>
-              <li onclick="filterProducts('Fanas', this)">फणसाचे पदार्थ</li>
-              <li onclick="filterProducts('Pith', this)">अस्सल पिठे</li>
-              <li onclick="filterProducts('Loncha', this)">घरगुती लोणची</li>
-            </ul>
-          </div>
-          <div class="shop-products">
-            <div class="products-grid" id="shopProductsContainer"></div>
-          </div>
+            <div class="category-sidebar">
+                <h3>कॅटेगरी</h3>
+                <ul class="category-list" id="categoryList">
+                    <li class="active" onclick="filterProducts('All', this)">सर्व उत्पादने</li>
+                    <li onclick="filterProducts('Amsul', this)">आमसूळ आणि कोकण</li>
+                    <li onclick="filterProducts('Fanas', this)">फणसाचे पदार्थ</li>
+                    <li onclick="filterProducts('Pith', this)">अस्सल पिठे</li>
+                    <li onclick="filterProducts('Loncha', this)">घरगुती लोणची</li>
+                </ul>
+            </div>
+            <div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="searchInput" placeholder="उत्पादने शोधा..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
+                </div>
+                <div class="products-grid" id="shopProductsContainer">
+                    <!-- Data from DB -->
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <!-- 3. ABOUT PAGE -->
-      <section id="about" class="page-section">
-        <h2 class="section-title">कोकण वारसा विषयी</h2>
-        <div
-          style="
-            background: var(--white);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-          "
-        >
-          <img
-            src="https://images.unsplash.com/photo-1582213797371-3316688f98c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-            style="width: 100%; border-radius: 15px; margin-bottom: 20px"
-          />
-          <p
-            style="
-              line-height: 1.8;
-              color: var(--gray-text);
-              text-align: justify;
-              margin-bottom: 20px;
-            "
-          >
-            <b>कोकण वारसा</b> हा एक प्रामाणिक प्रयत्न आहे कोकणची संस्कृती, तिथली
-            शुद्ध उत्पादने आणि महिला बचत गटांच्या हाताची चव जगभरात पोहोचवण्याचा.
-            आमच्याकडे मिळणारी सर्व उत्पादने 100% नैसर्गिक, घरगुती आणि कोणत्याही
-            रासायनिक प्रक्रियेविना तयार केलेली आहेत. आमचा उद्देश कोकणातील
-            स्थानिक शेतकऱ्यांना आणि कारागिरांना एक हक्काचे व्यासपीठ मिळवून देणे
-            हा आहे.
-          </p>
-          <button class="btn-orange" onclick="navigate('shop')">
-            आमची उत्पादने पहा
-          </button>
+    <!-- ABOUT PAGE -->
+    <section id="about" class="page-section">
+        <div class="cart-container">
+            <h2 class="section-title">आमच्याबद्दल</h2>
+            <p style="line-height: 1.8; color: var(--gray-text);">
+                'कोकण वारसा' हा कोकणातील अस्सल आणि पारंपरिक पदार्थांचा वारसा तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे. आमच्याकडे मिळणारी सर्व उत्पादने थेट कोकणातील शेतकऱ्यांकडून आणि घरगुती उद्योग करणाऱ्या महिलांकडून अत्यंत दर्जेदार आणि नैसर्गिक पद्धतीने तयार केली जातात.
+            </p>
         </div>
-      </section>
+    </section>
 
-      <!-- 4. CART & CHECKOUT PAGE -->
-      <section id="cart" class="page-section">
-        <h2 class="section-title">तुमचे कार्ट व चेकआउट</h2>
-
-        <div class="cart-layout">
-          <div class="cart-items-container">
-            <h3
-              style="
-                margin-bottom: 20px;
-                color: var(--primary-color);
-                border-bottom: 2px solid #eee;
-                padding-bottom: 10px;
-              "
-            >
-              निवडलेली उत्पादने
-            </h3>
-            <div id="cartItemsRenderArea"></div>
-          </div>
-
-          <div class="checkout-form">
-            <h3
-              style="
-                margin-bottom: 20px;
-                color: var(--orange);
-                border-bottom: 2px solid #eee;
-                padding-bottom: 10px;
-              "
-            >
-              ऑर्डर कन्फर्म करा
-            </h3>
-
-           
-           <form id="orderForm" onsubmit="prepareOrderData()">
-    
-    <!-- हे दोन टॅग्स कार्टच्या माहितीसाठी -->
-    <input type="hidden" name="Order_Details" id="hiddenOrderDetails" />
-    <input type="hidden" name="Total_Amount" id="hiddenTotalAmount" />
-    
-    <!-- याच्या खाली तुझे ग्राहकाचे नाव, पत्ता घेणारे टॅग्स असतील ते राहू दे -->
-
-              <div class="form-group">
-                <label>पूर्ण नाव</label>
-                <input
-                  type="text"
-                  name="Customer_Name"
-                  required
-                  placeholder="उदा. सुहास पाटील"
-                />
-              </div>
-              <div class="form-group">
-                <label>मोबाईल नंबर</label>
-                <input
-                  type="tel"
-                  name="Phone_Number"
-                  required
-                  placeholder="तुमचा संपर्क क्रमांक"
-                />
-              </div>
-              <div class="form-group">
-                <label>संपूर्ण पत्ता (पिन कोड सह)</label>
-                <textarea
-                  name="Delivery_Address"
-                  required
-                  rows="3"
-                  placeholder="घर क्रमांक, रस्ता, शहर, पिन कोड"
-                ></textarea>
-              </div>
-
-              <div
-                style="
-                  border-top: 2px dashed #ddd;
-                  margin: 25px 0;
-                  padding-top: 15px;
-                "
-              >
-                <h3 style="display: flex; justify-content: space-between">
-                  <span>एकूण रक्कम:</span>
-                  <span id="cartTotalUI" style="color: var(--primary-color)"
-                    >₹0</span
-                  >
-                </h3>
-              </div>
-
-              <button
-                type="submit"
-                class="btn-orange"
-                style="
-                  width: 100%;
-                  border-radius: 8px;
-                  font-size: 18px;
-                  padding: 15px;
-                "
-              >
-                ऑर्डर कन्फर्म करा
-              </button>
-              <p
-                style="
-                  font-size: 12px;
-                  color: #888;
-                  text-align: center;
-                  margin-top: 10px;
-                "
-              >
-                ऑर्डर प्लेस केल्यावर तुम्हाला लवकरच संपर्क केला जाईल.
-              </p>
-            </form>
-          </div>
+    <!-- CONTACT PAGE -->
+    <section id="contact" class="page-section">
+        <div class="cart-container" style="text-align: center;">
+            <h2 class="section-title">संपर्क करा</h2>
+            <p style="color: var(--gray-text);">काही शंका किंवा ऑर्डरबद्दल विचारणा करायची आहे का? आम्हाला संपर्क करा!</p>
+            <p style="font-size: 18px; font-weight: bold; color: var(--primary);"><i class="fas fa-phone-alt"></i> +91 9823xxxxxx</p>
+            <p style="font-size: 16px; color: var(--gray-text);"><i class="fas fa-envelope"></i> support@kokanvarsa.com</p>
         </div>
-      </section>
-    </main>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-col">
-          <h1 style="color: white; margin-bottom: 5px">कोकण वारसा</h1>
-          <p style="font-size: 13px; opacity: 0.8; line-height: 1.6">
-            अस्सल आणि पारंपरिक उत्पादनांद्वारे कोकणचा वारसा तुमच्या घरी आणा.
-          </p>
-        </div>
-        <div class="footer-col">
-          <h4>क्विक लिंक्स</h4>
-          <ul>
-            <li onclick="navigate('home')">मुख्यपृष्ठ</li>
-            <li onclick="navigate('shop')">सर्व उत्पादने</li>
-            <li onclick="navigate('about')">आमच्याबद्दल</li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>संपर्क</h4>
-          <ul>
-            <li style="display: flex; align-items: center; gap: 8px">
-              <i class="fas fa-phone-alt"></i> +91 9370352597
-            </li>
+    <!-- CART & CHECKOUT PAGE -->
+    <section id="cart" class="page-section">
+        <div class="cart-container">
+            <h2 class="section-title">तुमचे शॉपिंग कार्ट</h2>
+            <div id="cartItemsRenderArea">
+                <!-- Cart Items -->
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 20px; font-weight: bold; border-top: 2px solid #eee; padding-top: 15px;">
+                <span>एकूण रक्कम:</span>
+                <span id="cartTotalUI" style="color: var(--primary);">₹0</span>
+            </div>
 
-            <!-- नवीन WhatsApp नंबर -->
-            <li style="display: flex; align-items: center; gap: 8px">
-              <i class="fab fa-whatsapp"></i>
-              <a
-                href="https://wa.me/9273602162"
-                target="_blank"
-                style="transition: color 0.3s ease"
-                onmouseover="this.style.color = '#25D366'"
-                onmouseout="this.style.color = 'inherit'"
-              >
-                +91 9273602162 (WhatsApp)
-              </a>
-            </li>
-
-            <li style="display: flex; align-items: center; gap: 8px">
-              <i class="fas fa-envelope"></i> info@kokanvarsa.shop
-            </li>
-          </ul>
+            <div class="checkout-form">
+                <h3 style="margin-top:0; color:var(--primary);">डिलिव्हरीचा पत्ता व माहिती</h3>
+                <form id="orderForm" action="https://kokanvarsa-backend.admin-craftee.workers.dev/order" method="POST">
+                    <input type="hidden" name="order_details" id="hiddenOrderDetails">
+                    <input type="hidden" name="total_amount" id="hiddenTotalAmount">
+                    
+                    <div class="form-group">
+                        <label>पूर्ण नाव</label>
+                        <input type="text" name="customer_name" required placeholder="तुमचे नाव">
+                    </div>
+                    <div class="form-group">
+                        <label>मोबाईल नंबर (Phone)</label>
+                        <input type="tel" name="phone" required placeholder="१० अंकी मोबाईल नंबर">
+                    </div>
+                    <div class="form-group">
+                        <label>पत्ता (Address)</label>
+                        <textarea name="address" rows="3" required placeholder="घरचा पत्ता, पिनकोडसह"></textarea>
+                    </div>
+                    <button type="submit" class="btn-banner" style="width: 100%; border-radius: 8px;" onclick="prepareOrderData()">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
+                </form>
+            </div>
         </div>
-        <div class="footer-col">
-          <h4>सोशल मीडिया</h4>
-          <div class="social-icons">
-            <a
-              href="https://www.instagram.com/kokanvarsa.shop/"
-              target="_blank"
-              title="Instagram"
-            >
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61592591111252&ref=PROFILE_EDIT_xav_ig_profile_page_web#"
-              target="_blank"
-              title="Facebook"
-            >
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://wa.me/9273602162" target="_blank" title="Whatsapp">
-              <i class="fab fa-whatsapp"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 कोकण वारसा. सर्व हक्क राखीव.</p>
-      </div>
-    </footer>
+    </section>
 
-    <!-- Toast Notification Container -->
+    <!-- Toast Container -->
     <div id="toast-container"></div>
 
-    <!-- JavaScript Link -->
-<script src="script.js?v=6"></script>
-  </body>
+    <!-- वेगळी JavaScript फाईल लिंक केली -->
+    <script src="script.js?v=8"></script>
+</body>
 </html>
-
