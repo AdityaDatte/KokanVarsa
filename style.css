@@ -59,7 +59,7 @@ header {
     cursor: pointer;
     transition: color 0.3s;
 }
-.nav-links li a:hover, .nav-links li a.active {
+.nav-links li:hover, .nav-links li.active {
     color: var(--primary);
 }
 .cart-icon-wrapper {
@@ -77,7 +77,7 @@ header {
     font-weight: bold;
 }
 
-/* --- Hero Banner Section --- */
+/* --- Hero Banner --- */
 .hero-banner {
     max-width: 1200px;
     margin: 20px auto;
@@ -140,7 +140,7 @@ header {
     color: var(--green-badge);
 }
 
-/* --- Container & Layouts --- */
+/* --- Layouts & Sidebar --- */
 .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 .shop-layout { display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
 
@@ -172,72 +172,108 @@ header {
     color: var(--primary); 
 }
 
-/* --- Products Grid & Cards --- */
+/* --- 🌟 ADVANCED PRODUCT CARDS & HOVER EFFECTS --- */
 .products-grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
     gap: 25px; 
 }
+
 .product-card { 
     background: var(--white); 
-    border-radius: 12px; 
+    border-radius: 14px; 
     overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
     display: flex; 
     flex-direction: column; 
     border: 1px solid #eaeaea;
-    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    /* ॲडव्हान्स ट्रान्झिशन फॉर स्मूथ होव्हर */
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+
+/* जेव्हा माउस कार्डवर जाईल तेव्हाचा जादुई इफेक्ट (Advanced Hover) */
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(140, 59, 36, 0.15);
+    border-color: var(--accent);
 }
+
+/* उपलब्धता बॅज (Stock/Availability Badge) */
+.stock-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(45, 106, 79, 0.9);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 .product-img-wrap { 
     width: 100%; 
-    height: 190px; 
-    background: #fff; 
+    height: 200px; 
+    background: #fcfbfa; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
     overflow: hidden; 
+    position: relative;
 }
+
+/* फोटोवर होव्हर केल्यावर हलका झूम होणे */
 .product-card img { 
     width: 100%; 
     height: 100%; 
     object-fit: contain; 
-    padding: 10px; 
+    padding: 12px; 
     box-sizing: border-box; 
+    transition: transform 0.5s ease;
 }
+
+.product-card:hover img {
+    transform: scale(1.08);
+}
+
 .product-info { 
-    padding: 15px; 
+    padding: 18px; 
     display: flex; 
     flex-direction: column; 
     flex-grow: 1; 
 }
+
 .product-title { 
     font-size: 17px; 
     font-weight: 600; 
-    margin: 0 0 5px 0; 
+    margin: 0 0 6px 0; 
     color: var(--dark-text);
 }
+
 .product-price { 
     font-size: 18px; 
     color: var(--primary); 
     font-weight: 700; 
-    margin: 10px 0 15px 0; 
+    margin: 8px 0 15px 0; 
     margin-top: auto; 
 }
+
 .btn-cart { 
     background: var(--primary); 
     color: white; 
     border: none; 
-    padding: 10px; 
+    padding: 11px; 
     border-radius: 8px; 
     font-weight: 600; 
     cursor: pointer; 
     width: 100%; 
-    transition: background 0.2s;
+    transition: background 0.3s, transform 0.2s;
 }
+
 .btn-cart:hover {
     background: var(--primary-dark);
 }
