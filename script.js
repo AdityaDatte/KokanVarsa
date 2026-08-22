@@ -22,12 +22,16 @@ function renderProducts(products) {
     products.forEach(p => {
         container.innerHTML += `
             <div class="product-card">
-                <img src="${p.image_url}" alt="${p.name}">
+                <div class="product-img-wrap">
+                    <img src="${p.image_url}" alt="${p.name}">
+                </div>
                 <div class="product-info">
                     <h4 class="product-title">${p.name}</h4>
-                    <small style="color:gray;">${p.unit || '१ नग'}</small>
+                    <small style="color:gray; font-weight:500;">${p.unit || '१ नग'}</small>
                     <div class="product-price">₹${p.price}</div>
-                    <button class="btn-cart" onclick="addToCart(${p.id})">कार्टमध्ये जोडा</button>
+                    <button class="btn-cart" onclick="addToCart(${p.id})">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
                 </div>
             </div>
         `;
@@ -50,8 +54,12 @@ function navigate(pageId) {
     document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
-    event.target.classList.add('active');
+    
+    if(pageId === 'shop') document.querySelectorAll('.nav-links li')[0].classList.add('active');
+    if(pageId === 'cart') document.querySelectorAll('.nav-links li')[1].classList.add('active');
+    
     if(pageId === 'cart') renderCart();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function addToCart(id) {
@@ -65,7 +73,7 @@ function renderCart() {
     const container = document.getElementById('cartItemsContainer');
     container.innerHTML = "";
     if(cart.length === 0) {
-        container.innerHTML = "<p>कार्ट रिकामे आहे.</p>";
+        container.innerHTML = "<p style='color:gray; text-align:center;'>कार्ट रिकामे आहे.</p>";
         document.getElementById('cartTotalPrice').innerText = "₹0";
         return;
     }
@@ -74,8 +82,14 @@ function renderCart() {
         total += item.price;
         container.innerHTML += `
             <div class="cart-item">
-                <span>${item.name} (${item.unit || '१ नग'})</span>
-                <span>₹${item.price} <button onclick="removeFromCart(${index})" style="background:red; color:white; border:none; padding:3px 6px; border-radius:4px; margin-left:10px; cursor:pointer;">X</button></span>
+                <div>
+                    <strong style="font-size:15px;">${item.name}</strong> <br>
+                    <small style="color:gray;">${item.unit || '१ नग'}</small>
+                </div>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <span style="color:var(--primary); font-weight:bold;">₹${item.price}</span>
+                    <button onclick="removeFromCart(${index})" style="background:#ffebee; color:#c62828; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;" title="काढून टाका"><i class="fas fa-trash-alt"></i></button>
+                </div>
             </div>
         `;
     });
@@ -94,24 +108,8 @@ function prepareOrderData() {
         event.preventDefault();
         return;
     }
-    let details = cart.map((item, i) => `${i+1}. ${item.name} - ₹${item.price}`).join(" || ");
+    let details = cart.map((item, i) => `${i+1}. ${item.name} (${item.unit || '१ नग'}) - ₹${item.price}`).join(" || ");
     let total = cart.reduce((sum, item) => sum + item.price, 0);
     document.getElementById('hiddenOrderDetails').value = details;
     document.getElementById('hiddenTotalAmount').value = "₹" + total;
 }
-
-document.getElementById('orderForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    try {
-        const res = await fetch(`${API_URL}/order`, { method: "POST", body: formData });
-        const result = await res.json();
-        if(result.success) {
-            window.location.href = "https://rzp.io/rzp/iOUTiNYy";
-        } else {
-            alert("ऑर्डर प्रोसेस करताना त्रुटी आली.");
-        }
-    } catch(err) {
-        alert("सर्व्हरशी संपर्क होऊ शकला नाही.");
-    }
-});
