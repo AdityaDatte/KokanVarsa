@@ -113,5 +113,30 @@
             navigate(section);
         }
     </script>
+<script>
+    // Order Form Submit Handler (Redirects to Razorpay)
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+        const formData = new FormData(this);
+        
+        try {
+            const res = await fetch(`${API_URL}/order`, { 
+                method: "POST", 
+                body: formData 
+            });
+            const result = await res.json();
+            
+            if(result.success) {
+                window.location.href = "https://rzp.io/rzp/iOUTiNYy";
+            } else {
+                alert("ऑर्डर प्रोसेस करताना त्रुटी आली.");
+            }
+        } catch(err) {
+            console.error(err);
+            alert("सर्व्हरशी संपर्क होऊ शकला नाही.");
+        }
+    });
+</script>
+    
 </body>
 </html>
