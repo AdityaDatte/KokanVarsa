@@ -15,12 +15,13 @@
             <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
                 <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
             </div>
-            <ul class="nav-links" style="display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0;">
-                <li><a href="index.html" style="color:inherit; text-decoration:none;">होम</a></li>
-                <li><a href="products.html" class="active" style="color:var(--primary); text-decoration:none;">उत्पादने</a></li>
-                <li><a href="about.html" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
-                <li><a href="contact.html" style="color:inherit; text-decoration:none;">संपर्क</a></li>
-            </ul>
+            <ul class="nav-links">
+    <li><a href="index.html" class="active">होम</a></li>
+    <li><a href="products.html">उत्पादने</a></li>
+    <li><a href="about.html">आमच्याबद्दल</a></li>
+    <li><a href="contact.html">संपर्क</a></li>
+</ul>
+            
             <div class="nav-icons" style="display: flex; align-items: center; gap: 12px;">
                 <input type="text" id="searchInput" placeholder="शोधा..." oninput="handleSearch(this.value)" style="padding: 6px 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 110px;">
                 <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">English</button>
