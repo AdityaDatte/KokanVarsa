@@ -1,52 +1,58 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans Marathi', sans-serif;
+}
+
 :root {
-    --primary: #8C3B24;
-    --primary-dark: #6D2B1B;
-    --accent: #D4A373;
-    --bg-cream: #FDFBF7;
-    --dark-text: #2C221E;
-    --gray-text: #666;
-    --white: #FFFFFF;
-    --green-badge: #2D6A4F;
+    --primary: #1A3C2A;
+    --green-badge: #2E7D32;
+    --dark-text: #222222;
+    --gray-text: #666666;
+    --bg-light: #f9f9f9;
 }
 
 body {
-    font-family: 'Noto Sans Marathi', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-cream);
+    background-color: var(--bg-light);
     color: var(--dark-text);
 }
 
-/* --- Header & Navbar --- */
+/* Header & Navigation Styles */
 header {
     background: #ffffff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
+    width: 100%;
 }
+
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 12px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* यामुळे डावीकडे लोगो, मधει लिंक्स आणि उजवीकडे आयकॉन्स एकदम शिस्तीत रांगेत येतील */
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
-.logo-area h1 {
-    margin: 0;
-    font-size: 24px;
-    color: var(--primary);
-    font-weight: 700;
+
+.logo-area img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 6px;
 }
-.logo-area p {
-    margin: 0;
-    font-size: 11px;
-    color: var(--gray-text);
-    letter-spacing: 1px;
-}
-nav-links {
+
+.nav-links {
     display: flex;
     list-style: none;
     gap: 25px;
@@ -54,252 +60,187 @@ nav-links {
     margin: 0;
     padding: 0;
 }
-}
-.nav-links li {
+
+.nav-links li a {
+    color: var(--dark-text);
+    text-decoration: none;
     font-weight: 500;
     font-size: 15px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-.nav-links li:hover, .nav-links li.active {
-    color: var(--primary);
-}
-.cart-icon-wrapper {
-    position: relative;
-}
-.cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: var(--primary);
-    color: white;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-weight: bold;
+    transition: color 0.2s;
 }
 
-/* --- Hero Banner --- */
-.hero-banner {
-    max-width: 1200px;
-    margin: 20px auto;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    height: 380px;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+.nav-links li a:hover, 
+.nav-links li a.active {
+    color: var(--primary);
+}
+
+.nav-icons {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 15px;
+}
+
+/* Hero Section */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-banner {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover;
+    border-radius: 12px;
+    padding: 60px 20px;
     text-align: center;
     color: white;
-    padding: 0 20px;
+    margin-top: 20px;
 }
+
 .hero-content h2 {
-    font-size: 38px;
-    margin: 0 0 10px 0;
+    font-size: 32px;
+    margin-bottom: 15px;
     font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
+
 .hero-content p {
-    font-size: 17px;
-    margin: 0 0 20px 0;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    font-size: 16px;
+    margin-bottom: 25px;
+    color: #e0e0e0;
 }
+
 .btn-banner {
     background: var(--primary);
     color: white;
-    padding: 12px 30px;
-    border-radius: 30px;
     border: none;
-    font-size: 16px;
+    padding: 10px 24px;
+    border-radius: 25px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-.btn-banner:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
+    font-size: 15px;
+    transition: background 0.2s;
 }
 
-/* --- Trust Badges --- */
+.btn-banner:hover {
+    background: #142e20;
+}
+
+/* Trust Badges */
 .trust-badges-bar {
-    max-width: 1200px;
-    margin: 20px auto;
     display: flex;
     justify-content: space-around;
-    background: var(--white);
-    padding: 15px;
+    background: white;
+    padding: 20px;
     border-radius: 10px;
+    margin-top: 30px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    font-weight: 500;
 }
+
 .trust-badge-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--green-badge);
+    gap: 8px;
 }
 
-/* --- Layouts & Sidebar --- */
-.container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-.shop-layout { display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
-
-.category-sidebar { 
-    background: var(--white); 
-    padding: 20px; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
-    height: fit-content; 
-}
-.category-sidebar h3 {
-    margin-top: 0;
-    font-size: 18px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-}
-.category-list { list-style: none; padding: 0; margin: 0; }
-.category-list li { 
-    padding: 10px 12px; 
-    margin-bottom: 5px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: 500; 
-    color: #555; 
-    transition: background 0.2s, color 0.2s;
-}
-.category-list li:hover, .category-list li.active { 
-    background: #FBEEE6; 
-    color: var(--primary); 
+/* Products Grid */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
-/* --- 🌟 ADVANCED PRODUCT CARDS & HOVER EFFECTS --- */
-.products-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-    gap: 25px; 
-}
-
-.product-card { 
-    background: var(--white); 
-    border-radius: 14px; 
-    overflow: hidden; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
-    display: flex; 
-    flex-direction: column; 
-    border: 1px solid #eaeaea;
+.product-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
     position: relative;
-    /* ॲडव्हान्स ट्रान्झिशन फॉर स्मूथ होव्हर */
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.2s;
 }
 
-/* जेव्हा माउस कार्डवर जाईल तेव्हाचा जादुई इफेक्ट (Advanced Hover) */
 .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(140, 59, 36, 0.15);
-    border-color: var(--accent);
+    transform: translateY(-3px);
 }
 
-/* उपलब्धता बॅज (Stock/Availability Badge) */
 .stock-badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    background: rgba(45, 106, 79, 0.9);
-    color: white;
-    font-size: 11px;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--green-badge);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.product-img-wrap {
+    width: 100%;
+    height: 180px;
+    background: #f1f1f1;
+}
+
+.product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 16px;
     font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    z-index: 10;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.product-img-wrap { 
-    width: 100%; 
-    height: 200px; 
-    background: #fcfbfa; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden; 
-    position: relative;
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary);
 }
 
-/* फोटोवर होव्हर केल्यावर हलका झूम होणे */
-.product-card img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; 
-    padding: 12px; 
-    box-sizing: border-box; 
-    transition: transform 0.5s ease;
-}
-
-.product-card:hover img {
-    transform: scale(1.08);
-}
-
-.product-info { 
-    padding: 18px; 
-    display: flex; 
-    flex-direction: column; 
-    flex-grow: 1; 
-}
-
-.product-title { 
-    font-size: 17px; 
-    font-weight: 600; 
-    margin: 0 0 6px 0; 
-    color: var(--dark-text);
-}
-
-.product-price { 
-    font-size: 18px; 
-    color: var(--primary); 
-    font-weight: 700; 
-    margin: 8px 0 15px 0; 
-    margin-top: auto; 
-}
-
-.btn-cart { 
-    background: var(--primary); 
-    color: white; 
-    border: none; 
-    padding: 11px; 
-    border-radius: 8px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    width: 100%; 
-    transition: background 0.3s, transform 0.2s;
+.btn-cart {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: auto;
 }
 
 .btn-cart:hover {
-    background: var(--primary-dark);
+    background: #142e20;
 }
 
-/* --- Cart & Pages Box --- */
-.cart-box { 
-    background: var(--white); 
-    padding: 30px; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
-    max-width: 700px; 
-    margin: 0 auto; 
-}
-.cart-item { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    border-bottom: 1px solid #eee; 
-    padding: 12px 0; 
-}
-.page-section { display: none; }
-.page-section.active { display: block; }
-
-@media(max-width: 768px) { 
-    .shop-layout { grid-template-columns: 1fr; } 
-    .hero-content h2 { font-size: 26px; } 
+/* Responsive Mobile Adjustments */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* मोबाईलसाठी हवं तर मेनू लपवू शकतो किंवा हॅमर्गर टाकू शकतो */
+    }
+    .hero-content h2 {
+        font-size: 24px;
+    }
+    .trust-badges-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
 }
