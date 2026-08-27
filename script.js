@@ -177,7 +177,7 @@ const siteTranslations = {
     }
 };
 
-// Toggle Language Function
+// Toggle Language Function (Updated for both Home & Products Page)
 function toggleLanguage() {
     currentLang = currentLang === 'mr' ? 'en' : 'mr';
     
@@ -187,9 +187,19 @@ function toggleLanguage() {
         btn.innerText = currentLang === 'mr' ? 'English' : 'मराठी';
     }
     
-    // Update Static Elements on Page
+    // Dictionary for all texts
     const t = siteTranslations[currentLang];
     
+    // 1. Home Page Elements (जर त्या पेजवर असतील तर बदलतील)
+    const heroTitle = document.querySelector('.hero-content h2');
+    const heroDesc = document.querySelector('.hero-content p');
+    const heroBtn = document.querySelector('.hero-content .btn-banner');
+    
+    if(heroTitle) heroTitle.innerText = currentLang === 'mr' ? "अस्सल कोकणी चव, थेट तुमच्या दारात!" : "Authentic Kokani Flavor, Right at Your Doorstep!";
+    if(heroDesc) heroDesc.innerText = currentLang === 'mr' ? "कोकणच्या मातीतील गोडवा आणि आपुलकी, आता तुमच्या घरी." : "The sweetness and warmth of Kokan's soil, now at your home.";
+    if(heroBtn) heroBtn.innerText = currentLang === 'mr' ? "सर्व उत्पादने पहा" : "View All Products";
+
+    // 2. Products & Cart Page Elements
     if(document.getElementById('pageMainHeading')) document.getElementById('pageMainHeading').innerText = t.pageMainHeading;
     if(document.getElementById('cartSectionTitle')) document.getElementById('cartSectionTitle').innerText = t.cartTitle;
     if(document.getElementById('cartEmptyText')) document.getElementById('cartEmptyText').innerText = t.cartEmpty;
