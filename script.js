@@ -1,40 +1,83 @@
-const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
+// ==========================================
+// 1. Global Data Storage
+// ==========================================
 let allProducts = [];
 let cart = [];
 
-// पेज लोड झाल्यावर प्रॉडक्ट्स आणायचा कोड
-window.onload = function() {
-    // प्रॉडक्ट कंटेनर पेजवर असेल तरच लोड कर (म्हणजे होम पेजवर एरर येणार नाही)
-    const productContainer = document.getElementById('shopProductsContainer');
-    if (productContainer) {
-        fetchAndRenderProducts(); // किंवा जे काही तुझ्या फंक्शनचं नाव असेल
+// ==========================================
+// 2. Theme (Night Mode) Logic
+// ==========================================
+function toggleNightMode() {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    const nightBtns = document.querySelectorAll('#nightModeBtn');
+    nightBtns.forEach(btn => {
+        btn.innerText = isDark ? "☀️" : "🌙";
+    });
+}
+
+(function checkSavedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        window.addEventListener('DOMContentLoaded', () => {
+            const nightBtns = document.querySelectorAll('#nightModeBtn');
+            nightBtns.forEach(btn => { btn.innerText = "☀️"; });
+        });
     }
-};
-// प्रॉडक्ट्स रेंडर करणारं फंक्शन
+})();
+
+// ==========================================
+// 3. Products Fetch & Render Logic 
+// ==========================================
+async function fetchAndRenderProducts() {
+    try {
+        const SUPABASE_KEY = "sb_secret_WFKQT1D2V6gBQgqvIwREug_GV0mypoo"; 
+
+        let response = await fetch('https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*', {
+            headers: {
+                'apikey': SUPABASE_KEY, 
+                'Authorization': 'Bearer ' + SUPABASE_KEY 
+            }
+        });
+        
+        if(response.ok) {
+            let data = await response.json();
+            allProducts = data; 
+            renderProducts(allProducts);
+        }
+    } catch (error) {
+        console.error("Error loading products:", error);
+    }
+}
+
 function renderProducts(products) {
     const container = document.getElementById('shopProductsContainer');
-    // जर कंटेनर नसेल, तर कोड इथेच थांबेल आणि एरर देणार नाही
-    if (!container) return; 
+    if(!container) return; 
     
     container.innerHTML = "";
-    // ... तुझा बाकीचा कोड ...
-}
+    if(products.length === 0) {
+        container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
+        return;
+    }
+    
     products.forEach(p => {
-        // उपलब्धता बॅज ठरवणे (In Stock असल्यास 'उपलब्ध')
         let stockText = p.stock_status || "उपलब्ध";
-
         container.innerHTML += `
             <div class="product-card">
                 <div class="stock-badge"><i class="fas fa-check-circle"></i> ${stockText}</div>
                 <div class="product-img-wrap">
-                    <img src="${p.image_url}" alt="${p.name}">
+                    <img src="${p.image_url || 'default.jpg'}" alt="${p.name}">
                 </div>
                 <div class="product-info">
                     <h4 class="product-title">${p.name}</h4>
                     <small style="color:gray; font-weight:500;">${p.unit || '१ नग'}</small>
                     <div class="product-price">₹${p.price}</div>
                     <button class="btn-cart" onclick="addToCart(${p.id})">
-                        <i class="fas fa-cart-plus"></i> Add to Cart
+                        <i class="fas fa-cart-plus"></i> कार्टमध्ये जोडा
                     </button>
                 </div>
             </div>
@@ -42,96 +85,56 @@ function renderProducts(products) {
     });
 }
 
-function filterProducts(category, element) {
-    document.querySelectorAll('.category-list li').forEach(li => li.classList.remove('active'));
-    element.classList.add('active');
-    
-    if(category === 'All') {
-        renderProducts(allProducts);
-    } else {
-        const filtered = allProducts.filter(p => p.category === category);
-        renderProducts(filtered);
-    }
-}
-
-
-
-function handleSearch(query) {
-    const term = query.toLowerCase().trim();
-    if(term === "") {
-        renderProducts(allProducts);
-        return;
-    }
-    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
-    renderProducts(filtered);
-    navigate('shop');
-}
-
+// ==========================================
+// 4. Cart Logic
+// ==========================================
 function addToCart(id) {
     const product = allProducts.find(p => p.id === id);
+    if(!product) return;
+    
     cart.push(product);
-    document.getElementById('cartCount').innerText = cart.length;
+    
+    const badges = document.querySelectorAll('.cart-badge');
+    badges.forEach(badge => badge.innerText = cart.length);
+    
     alert(product.name + ' कार्टमध्ये जोडले गेले!');
-}
-
-function renderCart() {
-    const container = document.getElementById('cartItemsContainer');
-    container.innerHTML = "";
-    if(cart.length === 0) {
-        container.innerHTML = "<p style='color:gray; text-align:center;'>कार्ट रिकामे आहे.</p>";
-        document.getElementById('cartTotalPrice').innerText = "₹0";
-        return;
-    }
-    let total = 0;
-    cart.forEach((item, index) => {
-        total += item.price;
-        container.innerHTML += `
-            <div class="cart-item">
-                <div>
-                    <strong style="font-size:15px;">${item.name}</strong> <br>
-                    <small style="color:gray;">${item.unit || '१ नग'}</small>
-                </div>
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <span style="color:var(--primary); font-weight:bold;">₹${item.price}</span>
-                    <button onclick="removeFromCart(${index})" style="background:#ffebee; color:#c62828; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;" title="काढून टाका"><i class="fas fa-trash-alt"></i></button>
-                </div>
-            </div>
-        `;
-    });
-    document.getElementById('cartTotalPrice').innerText = "₹" + total;
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    document.getElementById('cartCount').innerText = cart.length;
+    
     renderCart();
 }
 
-function prepareOrderData() {
+function renderCart() {
+    const cartContainer = document.getElementById('cartItemsContainer');
+    if(!cartContainer) return; 
+    
     if(cart.length === 0) {
-        alert("कार्ट रिकामे आहे!");
-        event.preventDefault();
+        cartContainer.innerHTML = `<p id="cartEmptyText">कार्ट रिकामे आहे.</p>`;
+        document.getElementById('cartTotalPrice').innerText = "0";
         return;
     }
-    let details = cart.map((item, i) => `${i+1}. ${item.name} (${item.unit || '१ नग'}) - ₹${item.price}`).join(" || ");
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
-    document.getElementById('hiddenOrderDetails').value = details;
-    document.getElementById('hiddenTotalAmount').value = "₹" + total;
-}
-function toggleNightMode() {
-    document.body.classList.toggle('dark-theme');
-    
-    const nightBtn = document.getElementById('nightModeBtn');
-    if (document.body.classList.contains('dark-theme')) {
-        nightBtn.innerText = "☀️"; // डार्क मोड असेल तर सूर्य दाखवेल
-    } else {
-        nightBtn.innerText = "🌙"; // लाईट मोड असेल तर चंद्र दाखवेल
-    }
+
+    cartContainer.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item) => {
+        total += Number(item.price);
+        cartContainer.innerHTML += `
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span>${item.name}</span>
+                <span>₹${item.price}</span>
+            </div>
+        `;
+    });
+
+    const totalPriceElement = document.getElementById('cartTotalPrice');
+    if(totalPriceElement) totalPriceElement.innerText = total;
 }
 
-    // फक्त ज्या लिंकवर क्लिक केलंय, तोच सेक्शन दाखवा
-    const activeSection = document.getElementById(sectionId);
-    if (activeSection) {
-        activeSection.style.display = 'block';
+// ==========================================
+// 5. Initialize on Page Load
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    const productContainer = document.getElementById('shopProductsContainer');
+    if (productContainer) {
+        fetchAndRenderProducts();
     }
-}
+});
