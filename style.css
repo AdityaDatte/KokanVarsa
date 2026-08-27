@@ -54,16 +54,14 @@ header {
     width: 100%;
 }
 
-.nav-container {
+nav-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: nowrap;
 }
-
 .logo-area {
     display: flex;
     align-items: center;
@@ -77,15 +75,16 @@ header {
     border-radius: 6px;
 }
 
+/* मधल्या लिंक्स आणि उजव्या आयकॉन्स एकत्र शेजारी आणण्यासाठी */
 .nav-links {
     display: flex;
     list-style: none;
     gap: 25px;
     align-items: center;
     margin: 0;
-    padding: 0;
+    margin-right: auto; /* यामुळे उरलेली सगळी जागा डावीकडे ढकलली जाईल आणि आयकॉन्स बरोबर मेनूच्या शेजारी किंवा योग्य अंतरावर सेट होतील */
+    padding-left: 40px;
 }
-
 .nav-links li a {
     color: var(--dark-text);
     text-decoration: none;
@@ -102,7 +101,7 @@ header {
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 15px; /* कार्ट आणि नाईट मोड बटणामधील अंतर इथे नियंत्रित होते */
 }
 
 /* Hero Section */
