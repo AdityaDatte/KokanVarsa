@@ -136,3 +136,13 @@ function prepareOrderData() {
     document.getElementById('hiddenOrderDetails').value = details;
     document.getElementById('hiddenTotalAmount').value = "₹" + total;
 }
+function toggleNightMode() {
+    document.body.classList.toggle('dark-theme');
+    
+    const nightBtn = document.getElementById('nightModeBtn');
+    if (document.body.classList.contains('dark-theme')) {
+        nightBtn.innerText = "☀️"; // डार्क मोड असेल तर सूर्य दाखवेल
+    } else {
+        nightBtn.innerText = "🌙"; // लाईट मोड असेल तर चंद्र दाखवेल
+    }
+}
