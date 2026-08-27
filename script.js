@@ -136,3 +136,56 @@ function prepareOrderData() {
     document.getElementById('hiddenOrderDetails').value = details;
     document.getElementById('hiddenTotalAmount').value = "₹" + total;
 }
+
+
+// Current Language State (Default: Marathi)
+let currentLang = 'mr';
+
+// Dictionary for Translations
+const siteTranslations = {
+    mr: {
+        cartTitle: "तुमचे शॉपिंग कार्ट",
+        cartEmpty: "कार्ट रिकामे आहे.",
+        totalAmount: "एकूण रक्कम:",
+        deliveryInfo: "डिलिव्हरी माहिती व पत्ता",
+        namePlaceholder: "तुमचे नाव",
+        phonePlaceholder: "१० अंकी मोबाईल नंबर",
+        addressPlaceholder: "पत्ता पिनकोडसह",
+        orderBtn: "ऑर्डर कन्फर्म करा व पेमेंट करा",
+        addToCart: "Add to Cart",
+        inStock: "उपलब्ध",
+        addedAlert: "कार्टमध्ये जोडले गेले!"
+    },
+    en: {
+        cartTitle: "Your Shopping Cart",
+        cartEmpty: "Cart is empty.",
+        totalAmount: "Total Amount:",
+        deliveryInfo: "Delivery Info & Address",
+        namePlaceholder: "Your Name",
+        phonePlaceholder: "10-Digit Mobile Number",
+        addressPlaceholder: "Address with Pincode",
+        orderBtn: "Confirm Order & Pay",
+        addToCart: "Add to Cart",
+        inStock: "In Stock",
+        addedAlert: "added to cart!"
+    }
+};
+
+// Toggle Language Function
+function toggleLanguage() {
+    currentLang = currentLang === 'mr' ? 'en' : 'mr';
+    
+    // Change Button Text
+    const btn = document.getElementById('langBtn');
+    if(btn) {
+        btn.innerText = currentLang === 'mr' ? 'English' : 'मराठी';
+    }
+    
+    // Refresh Products and Cart to reflect language change
+    if(typeof renderProducts === 'function' && allProducts.length > 0) {
+        renderProducts(allProducts);
+    }
+    if(typeof renderCart === 'function') {
+        renderCart();
+    }
+}
