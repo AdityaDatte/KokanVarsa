@@ -24,18 +24,19 @@
                 <li><a href="products.html#about" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
                 <li><a href="products.html#contact" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
-            <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
-                <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
+           <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
+    
+    <!-- 🌟 Language Toggle Button (आता बरोबर nav-icons च्या आत आलाय) -->
+    <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">
+        English
+    </button>
 
-<!-- Language Toggle Button -->
-<button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; transition: background 0.3s; margin-left: 10px;">
-    English
-</button>
-                
-            </div>
-        </div>
+    <!-- Cart Icon -->
+    <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+</div>
     </header>
 
     <!-- HOME PAGE HERO & HIGHLIGHTS -->
