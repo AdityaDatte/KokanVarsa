@@ -192,3 +192,26 @@ function renderCart() {
 
     document.getElementById('cartTotalPrice').innerText = total;
 }
+// Function to fetch products from Supabase and render them
+async function fetchAndRenderProducts() {
+    try {
+        let response = await fetch('https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*', {
+            headers: {
+                'apikey': 'SUPABASE_ANON_KEY', // तुमची सुपाबेसची खरी अनो की (Anon Key) इथे असावी
+                'Authorization': 'Bearer SUPABASE_ANON_KEY'
+            }
+        });
+        
+        // जर वरच्या फेचमध्ये एरर येत असेल किंवा आधीची पद्धत वेगळी असेल, तर खालील सरळ पद्धत चालेल:
+        let data = await response.json();
+        allProducts = data; // ग्लोबल ॲरेमध्ये डेटा साठवला
+        renderProducts(allProducts); // प्रॉडक्ट्स स्क्रीनवर दाखवले
+    } catch (error) {
+        console.error("Error loading products:", error);
+    }
+}
+
+// Page Load वर ऑटोमॅटिक चालण्यासाठी:
+window.onload = function() {
+    fetchAndRenderProducts();
+};
