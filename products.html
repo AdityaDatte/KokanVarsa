@@ -10,23 +10,45 @@
 </head>
 <body>
 
-    <!-- Header -->
+   <!-- Header -->
     <header>
         <div class="nav-container">
-            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer;">
-               <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
-    <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
-</div>
+            
+            <!-- Logo Area -->
+            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
+                <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
             </div>
+
+            <!-- Navigation Links -->
             <ul class="nav-links">
                 <li><a href="index.html" style="color:inherit; text-decoration:none;">होम</a></li>
                 <li><a href="products.html" class="active" style="color:var(--primary); text-decoration:none;">उत्पादने</a></li>
                 <li><a href="#about" onclick="navigate('about')" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
                 <li><a href="#contact" onclick="navigate('contact')" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
-           
-    </header>
 
+            <!-- Navigation Icons (Search, Cart & Language Toggle) -->
+            <div class="nav-icons" style="display: flex; gap: 12px; align-items: center;">
+                
+                <!-- Language Toggle Button -->
+                <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                    English
+                </button>
+
+                <!-- Search Input -->
+                <input type="text" id="searchInput" placeholder="उत्पादने शोधा..." oninput="handleSearch(this.value)" style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 130px;">
+                
+                <!-- Cart Icon -->
+                <div class="cart-icon-wrapper" onclick="navigate('cart')" style="cursor: pointer; position: relative; font-size: 18px;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+
+            </div>
+
+        </div>
+    </header>
+   
     <!-- SHOP / PRODUCTS PAGE -->
     <div id="shop" class="container page-section active">
         <div class="shop-layout">
