@@ -6,40 +6,31 @@
     <title>कोकण वारसा - अस्सल कोकणी स्वाद</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
-  <!-- Header -->
+    <!-- Header -->
     <header>
-        <div class="nav-container" style="max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;">
-            
-            <!-- 1. Logo -->
-            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
-                <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
+        <div class="nav-container">
+            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer;">
+                <h1>कोकण वारसा</h1>
+                <p>अस्सल कोकणी स्वाद</p>
             </div>
-
-            <!-- 2. Links -->
-           <!-- Links (Single Page Navigation) -->
-           <ul class="nav-links">
-    <li><a href="index.html" class="active">होम</a></li>
-    <li><a href="products.html">उत्पादने</a></li>
-    <li><a href="about.html">आमच्याबद्दल</a></li>
-    <li><a href="contact.html">संपर्क</a></li>
-</ul>
-            <!-- 3. Icons -->
-            <div class="nav-icons" style="display: flex; align-items: center; gap: 12px;">
-                
-                <button onclick="toggleNightMode()" id="nightModeBtn" style="background: transparent; border: 1px solid var(--primary); color: var(--dark-text); padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 14px;">🌙</button>
-                <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; font-size: 18px;">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active" style="color:var(--primary); text-decoration:none;">होम</a></li>
+                <li><a href="products.html" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
+                <li><a href="products.html#about" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a href="products.html#contact" style="color:inherit; text-decoration:none;">संपर्क</a></li>
+            </ul>
+            <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
+                <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
             </div>
-
         </div>
     </header>
 
-    
     <!-- HOME PAGE HERO & HIGHLIGHTS -->
     <div class="container">
         <!-- Hero Banner -->
@@ -83,7 +74,6 @@
             <p style="color: #C8E6C9; font-size: 14px;">© 2026 कोकण वारसा. सर्वाधिकार सुरक्षित.</p>
         </div>
     </footer>
-<!-- Script Link -->
-    <script src="script.js?v=9"></script>
+
 </body>
 </html>
