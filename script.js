@@ -2,16 +2,14 @@ const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
 let allProducts = [];
 let cart = [];
 
-window.onload = async () => {
-    try {
-        const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
-        allProducts = await res.json();
-        renderProducts(allProducts);
-    } catch (err) {
-        document.getElementById('shopProductsContainer').innerHTML = "<p style='color:red;'>डेटा लोड करण्यात त्रुटी आली!</p>";
+// पेज लोड झाल्यावर प्रॉडक्ट्स आणायचा कोड
+window.onload = function() {
+    // प्रॉडक्ट कंटेनर पेजवर असेल तरच लोड कर (म्हणजे होम पेजवर एरर येणार नाही)
+    const productContainer = document.getElementById('shopProductsContainer');
+    if (productContainer) {
+        fetchAndRenderProducts(); // किंवा जे काही तुझ्या फंक्शनचं नाव असेल
     }
 };
-
 // प्रॉडक्ट्स रेंडर करणारं फंक्शन
 function renderProducts(products) {
     const container = document.getElementById('shopProductsContainer');
