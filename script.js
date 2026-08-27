@@ -54,25 +54,7 @@ function filterProducts(category, element) {
     }
 }
 
-function navigate(pageId) {
-    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    
-    const links = document.querySelectorAll('#nav-menu li a');
-    links.forEach(l => l.classList.remove('active'));
-    
-    if(pageId === 'shop') {
-        links[0].classList.add('active');
-        links[1].classList.add('active');
-    } else if(pageId === 'about') {
-        links[2].classList.add('active');
-    } else if(pageId === 'contact') {
-        links[3].classList.add('active');
-    }
-    
-    if(pageId === 'cart') renderCart();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+
 
 function handleSearch(query) {
     const term = query.toLowerCase().trim();
