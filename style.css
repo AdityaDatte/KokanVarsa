@@ -16,7 +16,7 @@
     --header-bg: #ffffff;
 }
 
-/* डार्क मोडचे कलर्स जेव्हा बॉडीवर 'dark-theme' क्लास असेल */
+/* डार्क मोड कलर्स */
 body.dark-theme {
     --primary: #2E7D32;
     --green-badge: #4CAF50;
@@ -25,6 +25,12 @@ body.dark-theme {
     --bg-light: #121212;
     --card-bg: #1E1E1E;
     --header-bg: #1A1A1A;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--dark-text);
+    transition: background 0.3s, color 0.3s;
 }
 
 body.dark-theme header {
@@ -39,11 +45,6 @@ body.dark-theme #cart {
     color: var(--dark-text);
 }
 
-body {
-    background-color: var(--bg-light);
-    color: var(--dark-text);
-}
-
 /* Header & Navigation Styles */
 header {
     background: #ffffff;
@@ -54,14 +55,16 @@ header {
     width: 100%;
 }
 
-nav-container {
+.nav-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: nowrap;
 }
+
 .logo-area {
     display: flex;
     align-items: center;
@@ -75,16 +78,17 @@ nav-container {
     border-radius: 6px;
 }
 
-/* मधल्या लिंक्स आणि उजव्या आयकॉन्स एकत्र शेजारी आणण्यासाठी */
 .nav-links {
     display: flex;
     list-style: none;
     gap: 25px;
     align-items: center;
     margin: 0;
-    margin-right: auto; /* यामुळे उरलेली सगळी जागा डावीकडे ढकलली जाईल आणि आयकॉन्स बरोबर मेनूच्या शेजारी किंवा योग्य अंतरावर सेट होतील */
-    padding-left: 40px;
+    margin-right: auto; /* यामुळे मेनू आणि आयकॉन्स मधील अतिरिक्त अंतर निघून जाईल */
+    padding-left: 30px;
+    padding: 0;
 }
+
 .nav-links li a {
     color: var(--dark-text);
     text-decoration: none;
@@ -101,7 +105,7 @@ nav-container {
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 15px; /* कार्ट आणि नाईट मोड बटणामधील अंतर इथे नियंत्रित होते */
+    gap: 12px; /* कार्ट आणि नाईट मोड बटण जवळ ठेवण्यासाठी अचूक अंतर */
 }
 
 /* Hero Section */
@@ -256,9 +260,6 @@ nav-container {
 
 /* Responsive Mobile Adjustments */
 @media (max-width: 768px) {
-    .nav-links {
-        display: none; /* मोबाईलसाठी हवं तर मेनू लपवू शकतो किंवा हॅमर्गर टाकू शकतो */
-    }
     .hero-content h2 {
         font-size: 24px;
     }
