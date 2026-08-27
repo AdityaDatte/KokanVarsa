@@ -12,6 +12,31 @@
     --dark-text: #222222;
     --gray-text: #666666;
     --bg-light: #f9f9f9;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
+}
+
+/* डार्क मोडचे कलर्स जेव्हा बॉडीवर 'dark-theme' क्लास असेल */
+body.dark-theme {
+    --primary: #2E7D32;
+    --green-badge: #4CAF50;
+    --dark-text: #E8F5E9;
+    --gray-text: #B0BEC5;
+    --bg-light: #121212;
+    --card-bg: #1E1E1E;
+    --header-bg: #1A1A1A;
+}
+
+body.dark-theme header {
+    background: var(--header-bg) !important;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+}
+
+body.dark-theme .product-card, 
+body.dark-theme .trust-badges-bar,
+body.dark-theme #cart {
+    background: var(--card-bg) !important;
+    color: var(--dark-text);
 }
 
 body {
