@@ -77,7 +77,7 @@ function toggleLanguage() {
     if(addressInput) addressInput.placeholder = t.addressPlaceholder;
     if(submitBtn) submitBtn.innerText = t.orderSubmitBtn;
 
-    // Re-render products and cart safely if functions exist
+    // Re-render products and cart safely
     if(typeof renderProducts === 'function' && allProducts.length > 0) {
         renderProducts(allProducts);
     }
@@ -86,10 +86,37 @@ function toggleLanguage() {
     }
 }
 
-// Render Products Function (Safe Check Added)
+// Fetch Products from Supabase (तुमचा मूळ डेटा आणणारा कोड)
+async function fetchProducts() {
+    try {
+        let response = await fetch('https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*', {
+            headers: {
+                'apikey': 'ANON_KEY_OR_YOUR_KEY', // तुमची सुपाबेसची की असेल तर ती राहील
+                'Authorization': 'Bearer ANON_KEY_OR_YOUR_KEY'
+            }
+        });
+        // किंवा जर तुझी साधी fetch पद्धत असेल तर ती इथे काम करेल. 
+        // खाली डमी डेटा ऐवजी तुझा Supabase चे रिस्पॉन्सचा कोड युज कर:
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}
+
+// 🌟 जर आधीची सुपाबेसची लाईन अशी असेल तर तिची खात्री कर:
+async function loadProductsFromSupabase() {
+    try {
+        let res = await fetch("https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*", {
+            headers: {
+                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0YWZtZXhrZ3lxYWx4YnJleGp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyMzg2Mjh9.EXAMPLE_KEY" // तुझी खरी key इथे टाकावी किंवा तुझा जुना URL fetch कोड वापरावा
+            }
+        });
+    } catch(e) {}
+}
+
+// Render Products Function
 function renderProducts(products) {
     const container = document.getElementById('shopProductsContainer');
-    if(!container) return; // जर कंटेनर नसेल तर एरर देणार नाही
+    if(!container) return;
     
     container.innerHTML = "";
     if(products.length === 0) {
@@ -139,10 +166,29 @@ function addToCart(id) {
     }
 }
 
-// Render Cart Function (Safe Check Added)
+// Render Cart Function
 function renderCart() {
     const cartContainer = document.getElementById('cartItemsContainer');
-    if(!cartContainer) return; // कार्ट पेजवर नसेल तर एरर थांबवेल
+    if(!cartContainer) return;
     
-    // इथे तुमचे उर्वरित कार्ट रेन्डरिंग लॉजिक राहील
+    if(cart.length === 0) {
+        cartContainer.innerHTML = `<p id="cartEmptyText">${siteTranslations[currentLang].cartEmpty}</p>`;
+        document.getElementById('cartTotalPrice').innerText = "0";
+        return;
+    }
+
+    cartContainer.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += Number(item.price);
+        cartContainer.innerHTML += `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <span>${item.name}</span>
+                <span>₹${item.price}</span>
+            </div>
+        `;
+    });
+
+    document.getElementById('cartTotalPrice').innerText = total;
 }
