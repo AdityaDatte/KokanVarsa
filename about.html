@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आमच्याबद्दल - कोकण वारसा</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container" style="max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
+                <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
+            </div>
+            <ul class="nav-links" style="display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0;">
+                <li><a href="index.html" style="color:inherit; text-decoration:none;">होम</a></li>
+                <li><a href="products.html" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
+                <li><a href="about.html" class="active" style="color:var(--primary); text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a href="contact.html" style="color:inherit; text-decoration:none;">संपर्क</a></li>
+            </ul>
+            <div class="nav-icons" style="display: flex; align-items: center; gap: 12px;">
+                <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">English</button>
+                <button onclick="toggleNightMode()" id="nightModeBtn" style="background: transparent; border: 1px solid var(--primary); color: var(--dark-text); padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 14px;">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 800px; margin: 50px auto; padding: 30px; background: var(--card-bg, #fff); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+        <h2 style="margin-bottom: 20px; color: var(--primary);">आमच्याबद्दल (About Us)</h2>
+        <p style="line-height: 1.8; font-size: 16px; color: var(--gray-text);">
+            'कोकण वारसा' हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे. कोकणच्या मातीतील गोडवा आणि आपुलकी आता तुमच्या दारात!
+        </p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
