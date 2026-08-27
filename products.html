@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>उत्पादने - कोकण वारसा</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-   <!-- Header -->
+    <!-- Header -->
     <header>
         <div class="nav-container">
             
@@ -48,111 +47,41 @@
 
         </div>
     </header>
-   
-    <!-- SHOP / PRODUCTS PAGE -->
-    <div id="shop" class="container page-section active">
-        <div class="shop-layout">
-            <div class="category-sidebar">
-                <h3>कॅटेगरी</h3>
-                <ul class="category-list" id="categoryList">
-                    <li class="active" onclick="filterProducts('All', this)">सर्व उत्पादने</li>
-                    <li onclick="filterProducts('Amsul', this)">आमसूळ आणि कोकण</li>
-                    <li onclick="filterProducts('Fanas', this)">फणसाचे पदार्थ</li>
-                    <li onclick="filterProducts('Pith', this)">अस्सल पिठे</li>
-                    <li onclick="filterProducts('Loncha', this)">घरगुती लोणची</li>
-                </ul>
-            </div>
-            <div>
-                <h2 style="margin-top:0; font-size: 22px; border-left: 5px solid var(--primary); padding-left: 10px; margin-bottom: 20px;">आमची सर्व उत्पादने</h2>
-                <div class="products-grid" id="shopProductsContainer">
-                    <p>डेटा लोड होत आहे... ⏳</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- ABOUT PAGE -->
-    <div id="about" class="container page-section">
-        <div class="cart-box" style="max-width: 800px; line-height: 1.8;">
-            <h2 style="color: var(--primary); margin-top: 0;">आमच्याबद्दल (About Us)</h2>
-            <p><strong>'कोकण वारसा'</strong> हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे.</p>
-        </div>
-    </div>
-
-    <!-- CONTACT PAGE -->
-    <div id="contact" class="container page-section">
-        <div class="cart-box" style="max-width: 600px; text-align: center;">
-            <h2 style="color: var(--primary); margin-top: 0;">संपर्क करा (Contact Us)</h2>
-            <p style="font-size: 18px; font-weight: bold; margin: 15px 0;"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> +91 9823xxxxxx</p>
-            <p style="font-size: 16px; color: var(--gray-text);"><i class="fas fa-envelope" style="color: var(--primary);"></i> support@kokanvarsa.shop</p>
-        </div>
-    </div>
-
-    <!-- CART PAGE -->
-    <div id="cart" class="container page-section">
-        <div class="cart-box">
-            <h2 style="margin-top:0; color:var(--primary);">तुमचे शॉपिंग कार्ट</h2>
-            <div id="cartItemsContainer">
-                <p>कार्ट रिकामे आहे.</p>
-            </div>
-            <h3 style="margin-top: 20px; display: flex; justify-content: space-between;">
-                <span>एकूण रक्कम:</span> 
-                <span id="cartTotalPrice" style="color:var(--primary);">₹0</span>
-            </h3>
-            
-            <div style="margin-top: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h3 style="margin-top:0; color:var(--primary);">डिलिव्हरी माहिती व पत्ता</h3>
-                <form id="orderForm" action="https://kokanvarsa-backend.admin-craftee.workers.dev/order" method="POST">
-                    <input type="hidden" name="order_details" id="hiddenOrderDetails">
-                    <input type="hidden" name="total_amount" id="hiddenTotalAmount">
-                    
-                    <label style="font-size:13px; font-weight:600;">पूर्ण नाव</label>
-                    <input type="text" name="customer_name" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="तुमचे नाव">
-                    
-                    <label style="font-size:13px; font-weight:600;">मोबाईल नंबर</label>
-                    <input type="tel" name="phone" required style="width:100%; padding:10px; margin:5px 0 10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="१० अंकी मोबाईल नंबर">
-                    
-                    <label style="font-size:13px; font-weight:600;">पत्ता</label>
-                    <textarea name="address" rows="3" required style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;" placeholder="पत्ता पिनकोडसह"></textarea>
-                    
-                    <button type="submit" class="btn-banner" style="width: 100%; border-radius: 8px;" onclick="prepareOrderData()">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js?v=7"></script>
-    <script>
-        // URL hash check to load specific section on products page
-        if(window.location.hash) {
-            let section = window.location.hash.substring(1);
-            navigate(section);
-        }
-    </script>
-<script>
-    // Order Form Submit Handler (Redirects to Razorpay)
-    document.getElementById('orderForm').addEventListener('submit', async function(e) {
-        e.preventDefault(); 
-        const formData = new FormData(this);
+    <!-- Main Products & Cart Section -->
+    <main class="container" style="padding: 40px 20px;">
+        <h2 style="margin-bottom: 20px;" id="pageMainHeading">आमची उत्पादने</h2>
         
-        try {
-            const res = await fetch(`${API_URL}/order`, { 
-                method: "POST", 
-                body: formData 
-            });
-            const result = await res.json();
-            
-            if(result.success) {
-                window.location.href = "https://rzp.io/rzp/iOUTiNYy";
-            } else {
-                alert("ऑर्डर प्रोसेस करताना त्रुटी आली.");
-            }
-        } catch(err) {
-            console.error(err);
-            alert("सर्व्हरशी संपर्क होऊ शकला नाही.");
-        }
-    });
-</script>
-    
+        <!-- Products Container -->
+        <div id="shopProductsContainer" class="products-grid">
+            <!-- Products will be loaded dynamically via script.js -->
+        </div>
+
+        <!-- Cart Section -->
+        <div id="cart" style="margin-top: 50px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 id="cartSectionTitle" style="margin-bottom: 15px;">तुमचे शॉपिंग कार्ट</h3>
+            <div id="cartItemsContainer">
+                <p id="cartEmptyText">कार्ट रिकामे आहे.</p>
+            </div>
+            <div id="cartTotalContainer" style="margin-top: 20px; font-weight: bold; font-size: 18px;">
+                <span id="totalLabel">एकूण रक्कम:</span> ₹<span id="cartTotalPrice">0</span>
+            </div>
+
+            <!-- Order Form -->
+            <form id="orderForm" style="margin-top: 25px; display: flex; flex-direction: column; gap: 15px; max-width: 500px;">
+                <h4 id="deliveryInfoHeading">डिलिव्हरी माहिती व पत्ता</h4>
+                <input type="text" name="customer_name" placeholder="तुमचे नाव" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <input type="tel" name="customer_phone" placeholder="१० अंकी मोबाईल नंबर" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <textarea name="customer_address" placeholder="पत्ता पिनकोडसह" rows="3" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;"></textarea>
+                
+                <button type="submit" id="orderSubmitBtn" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;">
+                    ऑर्डर कन्फर्म करा व पेमेंट करा
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Script File with Version Update -->
+    <script src="script.js?v=8"></script>
 </body>
 </html>
