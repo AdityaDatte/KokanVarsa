@@ -19,6 +19,9 @@ function renderProducts(products) {
         container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
         return;
     }
+
+    const t = siteTranslations[currentLang];
+    
     products.forEach(p => {
         // उपलब्धता बॅज ठरवणे (In Stock असल्यास 'उपलब्ध')
         let stockText = p.stock_status || "उपलब्ध";
@@ -89,7 +92,8 @@ function addToCart(id) {
     const product = allProducts.find(p => p.id === id);
     cart.push(product);
     document.getElementById('cartCount').innerText = cart.length;
-    alert(product.name + ' कार्टमध्ये जोडले गेले!');
+    const t = siteTranslations[currentLang];
+    alert(product.name + ' ' + t.addedAlert);
 }
 
 function renderCart() {
