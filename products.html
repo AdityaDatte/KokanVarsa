@@ -10,42 +10,32 @@
 </head>
 <body>
 
-   <!-- Header -->
+ <!-- Header -->
     <header>
         <div class="nav-container" style="max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;">
             
-            <!-- Logo Area -->
+            <!-- 1. Logo -->
             <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
                 <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
             </div>
 
-            <!-- Navigation Links -->
+            <!-- 2. Links -->
             <ul class="nav-links" style="display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0;">
-                <li><a href="index.html" style="color:inherit; text-decoration:none;">होम</a></li>
-                <li><a href="products.html" class="active" style="color:var(--primary); text-decoration:none;">उत्पादने</a></li>
-                <li><a href="#about" onclick="navigate('about')" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
-                <li><a href="#contact" onclick="navigate('contact')" style="color:inherit; text-decoration:none;">संपर्क</a></li>
+                <li><a href="index.html" class="active" style="color:var(--primary); text-decoration:none;">होम</a></li>
+                <li><a href="products.html" style="color:inherit; text-decoration:none;">उत्पादने</a></li>
+                <li><a href="products.html#about" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a href="products.html#contact" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
 
-            
-            <!-- Navigation Icons (Search, Cart & Language Toggle) -->
-            <div class="nav-icons" style="display: flex; gap: 15px; align-items: center;">
-                
-
-                <!-- Search Input -->
-                <input type="text" id="searchInput" placeholder="उत्पादने शोधा..." oninput="handleSearch(this.value)" style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 130px;">
-                
-                <!-- Cart Icon -->
-                <div class="cart-icon-wrapper" onclick="navigate('cart')" style="cursor: pointer; position: relative; font-size: 18px;">
+            <!-- 3. Icons -->
+            <div class="nav-icons" style="display: flex; align-items: center; gap: 12px;">
+                <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">English</button>
+                <button onclick="toggleNightMode()" id="nightModeBtn" style="background: transparent; border: 1px solid var(--primary); color: var(--dark-text); padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 14px;">🌙</button>
+                <div class="cart-icon-wrapper" onclick="location.href='products.html#cart'" style="cursor: pointer; font-size: 18px;">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
                 </div>
-
             </div>
-<!-- Night Mode Toggle Button -->
-<button onclick="toggleNightMode()" id="nightModeBtn" style="background: transparent; border: 1px solid var(--primary); color: var(--dark-text); padding: 6px 10px; border-radius: 20px; cursor: pointer; font-size: 14px;">
-    🌙
-</button>
+
         </div>
     </header>
 
