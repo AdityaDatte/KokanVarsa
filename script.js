@@ -146,11 +146,6 @@ function toggleNightMode() {
         nightBtn.innerText = "🌙"; // लाईट मोड असेल तर चंद्र दाखवेल
     }
 }
-function navigate(sectionId) {
-    // तिन्ही सेक्शन्स लपवा
-    document.getElementById('products-section').style.display = 'none';
-    document.getElementById('about-section').style.display = 'none';
-    document.getElementById('contact-section').style.display = 'none';
 
     // फक्त ज्या लिंकवर क्लिक केलंय, तोच सेक्शन दाखवा
     const activeSection = document.getElementById(sectionId);
