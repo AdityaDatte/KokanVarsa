@@ -1,133 +1,27 @@
-// Current Language State (Default: Marathi)
-let currentLang = 'mr';
-
-// Global Data Storage
+const API_URL = "https://kokanvarsa-backend.admin-craftee.workers.dev";
 let allProducts = [];
 let cart = [];
 
-// Dictionary for Translations
-const siteTranslations = {
-    mr: {
-        pageMainHeading: "आमची उत्पादने",
-        cartTitle: "तुमचे शॉपिंग कार्ट",
-        cartEmpty: "कार्ट रिकामे आहे.",
-        totalLabel: "एकूण रक्कम:",
-        deliveryInfoHeading: "डिलिव्हरी माहिती व पत्ता",
-        namePlaceholder: "तुमचे नाव",
-        phonePlaceholder: "१० अंकी मोबाईल नंबर",
-        addressPlaceholder: "पत्ता पिनकोडसह",
-        orderSubmitBtn: "ऑर्डर कन्फर्म करा व पेमेंट करा",
-        addToCartText: "Add to Cart",
-        inStockText: "उपलब्ध",
-        addedAlert: "कार्टमध्ये जोडले गेले!"
-    },
-    en: {
-        pageMainHeading: "Our Products",
-        cartTitle: "Your Shopping Cart",
-        cartEmpty: "Cart is empty.",
-        totalLabel: "Total Amount:",
-        deliveryInfoHeading: "Delivery Info & Address",
-        namePlaceholder: "Your Name",
-        phonePlaceholder: "10-Digit Mobile Number",
-        addressPlaceholder: "Address with Pincode",
-        orderSubmitBtn: "Confirm Order & Pay",
-        addToCartText: "Add to Cart",
-        inStockText: "In Stock",
-        addedAlert: "added to cart!"
+window.onload = async () => {
+    try {
+        const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+        allProducts = await res.json();
+        renderProducts(allProducts);
+    } catch (err) {
+        document.getElementById('shopProductsContainer').innerHTML = "<p style='color:red;'>डेटा लोड करण्यात त्रुटी आली!</p>";
     }
 };
 
-// Toggle Language Function
-function toggleLanguage() {
-    currentLang = currentLang === 'mr' ? 'en' : 'mr';
-    
-    // Change Button Text
-    const btn = document.getElementById('langBtn');
-    if(btn) {
-        btn.innerText = currentLang === 'mr' ? 'English' : 'मराठी';
-    }
-    
-    // Dictionary Reference
-    const t = siteTranslations[currentLang];
-    
-    // 1. Home Page Elements
-    const heroTitle = document.querySelector('.hero-content h2');
-    const heroDesc = document.querySelector('.hero-content p');
-    const heroBtn = document.querySelector('.hero-content .btn-banner');
-    
-    if(heroTitle) heroTitle.innerText = currentLang === 'mr' ? "अस्सल कोकणी चव, थेट तुमच्या दारात!" : "Authentic Kokani Flavor, Right at Your Doorstep!";
-    if(heroDesc) heroDesc.innerText = currentLang === 'mr' ? "कोकणच्या मातीतील गोडवा आणि आपुलकी, आता तुमच्या घरी." : "The sweetness and warmth of Kokan's soil, now at your home.";
-    if(heroBtn) heroBtn.innerText = currentLang === 'mr' ? "सर्व उत्पादने पहा" : "View All Products";
-
-    // 2. Products & Cart Page Elements
-    if(document.getElementById('pageMainHeading')) document.getElementById('pageMainHeading').innerText = t.pageMainHeading;
-    if(document.getElementById('cartSectionTitle')) document.getElementById('cartSectionTitle').innerText = t.cartTitle;
-    if(document.getElementById('cartEmptyText')) document.getElementById('cartEmptyText').innerText = t.cartEmpty;
-    if(document.getElementById('totalLabel')) document.getElementById('totalLabel').innerText = t.totalLabel;
-    if(document.getElementById('deliveryInfoHeading')) document.getElementById('deliveryInfoHeading').innerText = t.deliveryInfoHeading;
-    
-    // Update Form Placeholders
-    const nameInput = document.querySelector('input[name="customer_name"]');
-    const phoneInput = document.querySelector('input[name="customer_phone"]');
-    const addressInput = document.querySelector('textarea[name="customer_address"]');
-    const submitBtn = document.getElementById('orderSubmitBtn');
-    
-    if(nameInput) nameInput.placeholder = t.namePlaceholder;
-    if(phoneInput) phoneInput.placeholder = t.phonePlaceholder;
-    if(addressInput) addressInput.placeholder = t.addressPlaceholder;
-    if(submitBtn) submitBtn.innerText = t.orderSubmitBtn;
-
-    // Re-render products and cart safely
-    if(typeof renderProducts === 'function' && allProducts.length > 0) {
-        renderProducts(allProducts);
-    }
-    if(typeof renderCart === 'function') {
-        renderCart();
-    }
-}
-
-// Fetch Products from Supabase (तुमचा मूळ डेटा आणणारा कोड)
-async function fetchProducts() {
-    try {
-        let response = await fetch('https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*', {
-            headers: {
-                'apikey': 'ANON_KEY_OR_YOUR_KEY', // तुमची सुपाबेसची की असेल तर ती राहील
-                'Authorization': 'Bearer ANON_KEY_OR_YOUR_KEY'
-            }
-        });
-        // किंवा जर तुझी साधी fetch पद्धत असेल तर ती इथे काम करेल. 
-        // खाली डमी डेटा ऐवजी तुझा Supabase चे रिस्पॉन्सचा कोड युज कर:
-    } catch (error) {
-        console.error("Error fetching products:", error);
-    }
-}
-
-// 🌟 जर आधीची सुपाबेसची लाईन अशी असेल तर तिची खात्री कर:
-async function loadProductsFromSupabase() {
-    try {
-        let res = await fetch("https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*", {
-            headers: {
-                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0YWZtZXhrZ3lxYWx4YnJleGp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyMzg2Mjh9.EXAMPLE_KEY" // तुझी खरी key इथे टाकावी किंवा तुझा जुना URL fetch कोड वापरावा
-            }
-        });
-    } catch(e) {}
-}
-
-// Render Products Function
 function renderProducts(products) {
     const container = document.getElementById('shopProductsContainer');
-    if(!container) return;
-    
     container.innerHTML = "";
     if(products.length === 0) {
-        container.innerHTML = currentLang === 'mr' ? "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>" : "<p>No products available.</p>";
+        container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
         return;
     }
-    
-    const t = siteTranslations[currentLang];
-    
     products.forEach(p => {
-        let stockText = p.stock_status || t.inStockText;
+        // उपलब्धता बॅज ठरवणे (In Stock असल्यास 'उपलब्ध')
+        let stockText = p.stock_status || "उपलब्ध";
 
         container.innerHTML += `
             <div class="product-card">
@@ -140,7 +34,7 @@ function renderProducts(products) {
                     <small style="color:gray; font-weight:500;">${p.unit || '१ नग'}</small>
                     <div class="product-price">₹${p.price}</div>
                     <button class="btn-cart" onclick="addToCart(${p.id})">
-                        <i class="fas fa-cart-plus"></i> ${t.addToCartText}
+                        <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
                 </div>
             </div>
@@ -148,70 +42,97 @@ function renderProducts(products) {
     });
 }
 
-// Add to Cart Function
-function addToCart(id) {
-    const product = allProducts.find(p => p.id === id);
-    if(!product) return;
+function filterProducts(category, element) {
+    document.querySelectorAll('.category-list li').forEach(li => li.classList.remove('active'));
+    element.classList.add('active');
     
-    cart.push(product);
-    
-    const badge = document.getElementById('cartCount');
-    if(badge) badge.innerText = cart.length;
-    
-    const t = siteTranslations[currentLang];
-    alert(product.name + ' ' + t.addedAlert);
-    
-    if(typeof renderCart === 'function') {
-        renderCart();
+    if(category === 'All') {
+        renderProducts(allProducts);
+    } else {
+        const filtered = allProducts.filter(p => p.category === category);
+        renderProducts(filtered);
     }
 }
 
-// Render Cart Function
-function renderCart() {
-    const cartContainer = document.getElementById('cartItemsContainer');
-    if(!cartContainer) return;
+function navigate(pageId) {
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
     
-    if(cart.length === 0) {
-        cartContainer.innerHTML = `<p id="cartEmptyText">${siteTranslations[currentLang].cartEmpty}</p>`;
-        document.getElementById('cartTotalPrice').innerText = "0";
+    const links = document.querySelectorAll('#nav-menu li a');
+    links.forEach(l => l.classList.remove('active'));
+    
+    if(pageId === 'shop') {
+        links[0].classList.add('active');
+        links[1].classList.add('active');
+    } else if(pageId === 'about') {
+        links[2].classList.add('active');
+    } else if(pageId === 'contact') {
+        links[3].classList.add('active');
+    }
+    
+    if(pageId === 'cart') renderCart();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleSearch(query) {
+    const term = query.toLowerCase().trim();
+    if(term === "") {
+        renderProducts(allProducts);
         return;
     }
+    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
+    renderProducts(filtered);
+    navigate('shop');
+}
 
-    cartContainer.innerHTML = "";
+function addToCart(id) {
+    const product = allProducts.find(p => p.id === id);
+    cart.push(product);
+    document.getElementById('cartCount').innerText = cart.length;
+    alert(product.name + ' कार्टमध्ये जोडले गेले!');
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItemsContainer');
+    container.innerHTML = "";
+    if(cart.length === 0) {
+        container.innerHTML = "<p style='color:gray; text-align:center;'>कार्ट रिकामे आहे.</p>";
+        document.getElementById('cartTotalPrice').innerText = "₹0";
+        return;
+    }
     let total = 0;
-
     cart.forEach((item, index) => {
-        total += Number(item.price);
-        cartContainer.innerHTML += `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-                <span>${item.name}</span>
-                <span>₹${item.price}</span>
+        total += item.price;
+        container.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong style="font-size:15px;">${item.name}</strong> <br>
+                    <small style="color:gray;">${item.unit || '१ नग'}</small>
+                </div>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <span style="color:var(--primary); font-weight:bold;">₹${item.price}</span>
+                    <button onclick="removeFromCart(${index})" style="background:#ffebee; color:#c62828; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;" title="काढून टाका"><i class="fas fa-trash-alt"></i></button>
+                </div>
             </div>
         `;
     });
-
-    document.getElementById('cartTotalPrice').innerText = total;
+    document.getElementById('cartTotalPrice').innerText = "₹" + total;
 }
-// Function to fetch products from Supabase and render them
-async function fetchAndRenderProducts() {
-    try {
-        let response = await fetch('https://atafmexkgyqalxbrexju.supabase.co/rest/v1/products?select=*', {
-            headers: {
-                'apikey': 'SUPABASE_ANON_KEY', // तुमची सुपाबेसची खरी अनो की (Anon Key) इथे असावी
-                'Authorization': 'Bearer SUPABASE_ANON_KEY'
-            }
-        });
-        
-        // जर वरच्या फेचमध्ये एरर येत असेल किंवा आधीची पद्धत वेगळी असेल, तर खालील सरळ पद्धत चालेल:
-        let data = await response.json();
-        allProducts = data; // ग्लोबल ॲरेमध्ये डेटा साठवला
-        renderProducts(allProducts); // प्रॉडक्ट्स स्क्रीनवर दाखवले
-    } catch (error) {
-        console.error("Error loading products:", error);
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById('cartCount').innerText = cart.length;
+    renderCart();
+}
+
+function prepareOrderData() {
+    if(cart.length === 0) {
+        alert("कार्ट रिकामे आहे!");
+        event.preventDefault();
+        return;
     }
+    let details = cart.map((item, i) => `${i+1}. ${item.name} (${item.unit || '१ नग'}) - ₹${item.price}`).join(" || ");
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById('hiddenOrderDetails').value = details;
+    document.getElementById('hiddenTotalAmount').value = "₹" + total;
 }
-
-// Page Load वर ऑटोमॅटिक चालण्यासाठी:
-window.onload = function() {
-    fetchAndRenderProducts();
-};
