@@ -12,13 +12,15 @@ window.onload = async () => {
     }
 };
 
+// प्रॉडक्ट्स रेंडर करणारं फंक्शन
 function renderProducts(products) {
     const container = document.getElementById('shopProductsContainer');
+    // जर कंटेनर नसेल, तर कोड इथेच थांबेल आणि एरर देणार नाही
+    if (!container) return; 
+    
     container.innerHTML = "";
-    if(products.length === 0) {
-        container.innerHTML = "<p>कोणतीही उत्पादने उपलब्ध नाहीत.</p>";
-        return;
-    }
+    // ... तुझा बाकीचा कोड ...
+}
     products.forEach(p => {
         // उपलब्धता बॅज ठरवणे (In Stock असल्यास 'उपलब्ध')
         let stockText = p.stock_status || "उपलब्ध";
