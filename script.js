@@ -148,29 +148,31 @@ let currentLang = 'mr';
 // Dictionary for Translations
 const siteTranslations = {
     mr: {
+        pageMainHeading: "आमची उत्पादने",
         cartTitle: "तुमचे शॉपिंग कार्ट",
         cartEmpty: "कार्ट रिकामे आहे.",
-        totalAmount: "एकूण रक्कम:",
-        deliveryInfo: "डिलिव्हरी माहिती व पत्ता",
+        totalLabel: "एकूण रक्कम:",
+        deliveryInfoHeading: "डिलिव्हरी माहिती व पत्ता",
         namePlaceholder: "तुमचे नाव",
         phonePlaceholder: "१० अंकी मोबाईल नंबर",
         addressPlaceholder: "पत्ता पिनकोडसह",
-        orderBtn: "ऑर्डर कन्फर्म करा व पेमेंट करा",
-        addToCart: "Add to Cart",
-        inStock: "उपलब्ध",
+        orderSubmitBtn: "ऑर्डर कन्फर्म करा व पेमेंट करा",
+        addToCartText: "Add to Cart",
+        inStockText: "उपलब्ध",
         addedAlert: "कार्टमध्ये जोडले गेले!"
     },
     en: {
+        pageMainHeading: "Our Products",
         cartTitle: "Your Shopping Cart",
         cartEmpty: "Cart is empty.",
-        totalAmount: "Total Amount:",
-        deliveryInfo: "Delivery Info & Address",
+        totalLabel: "Total Amount:",
+        deliveryInfoHeading: "Delivery Info & Address",
         namePlaceholder: "Your Name",
         phonePlaceholder: "10-Digit Mobile Number",
         addressPlaceholder: "Address with Pincode",
-        orderBtn: "Confirm Order & Pay",
-        addToCart: "Add to Cart",
-        inStock: "In Stock",
+        orderSubmitBtn: "Confirm Order & Pay",
+        addToCartText: "Add to Cart",
+        inStockText: "In Stock",
         addedAlert: "added to cart!"
     }
 };
@@ -185,8 +187,28 @@ function toggleLanguage() {
         btn.innerText = currentLang === 'mr' ? 'English' : 'मराठी';
     }
     
-    // Refresh Products and Cart to reflect language change
-    if(typeof renderProducts === 'function' && allProducts.length > 0) {
+    // Update Static Elements on Page
+    const t = siteTranslations[currentLang];
+    
+    if(document.getElementById('pageMainHeading')) document.getElementById('pageMainHeading').innerText = t.pageMainHeading;
+    if(document.getElementById('cartSectionTitle')) document.getElementById('cartSectionTitle').innerText = t.cartTitle;
+    if(document.getElementById('cartEmptyText')) document.getElementById('cartEmptyText').innerText = t.cartEmpty;
+    if(document.getElementById('totalLabel')) document.getElementById('totalLabel').innerText = t.totalLabel;
+    if(document.getElementById('deliveryInfoHeading')) document.getElementById('deliveryInfoHeading').innerText = t.deliveryInfoHeading;
+    
+    // Update Form Placeholders
+    const nameInput = document.querySelector('input[name="customer_name"]');
+    const phoneInput = document.querySelector('input[name="customer_phone"]');
+    const addressInput = document.querySelector('textarea[name="customer_address"]');
+    const submitBtn = document.getElementById('orderSubmitBtn');
+    
+    if(nameInput) nameInput.placeholder = t.namePlaceholder;
+    if(phoneInput) phoneInput.placeholder = t.phonePlaceholder;
+    if(addressInput) addressInput.placeholder = t.addressPlaceholder;
+    if(submitBtn) submitBtn.innerText = t.orderSubmitBtn;
+
+    // Re-render products and cart if functions exist
+    if(typeof renderProducts === 'function' && typeof allProducts !== 'undefined' && allProducts.length > 0) {
         renderProducts(allProducts);
     }
     if(typeof renderCart === 'function') {
