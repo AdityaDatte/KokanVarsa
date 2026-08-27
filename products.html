@@ -4,34 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>उत्पादने - कोकण वारसा</title>
-    <link rel="stylesheet" href="style.css?v=11">
+    <link rel="stylesheet" href="style.css?v=15">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- 🌟 Universal Header 🌟 -->
+    <!-- 🌟 Header 🌟 -->
     <header>
         <div class="nav-container" style="max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;">
             
-            <!-- Logo Area -->
+            <!-- Logo -->
             <div class="logo-area" onclick="location.href='index.html'" style="cursor: pointer; display: flex; align-items: center;">
                 <img src="https://atafmexkgyqalxbrexju.supabase.co/storage/v1/object/public/product-images/logo.jpeg" alt="कोकण वारसा" style="height: 48px; width: auto; object-fit: contain; border-radius: 6px;">
             </div>
 
-            <!-- Navigation Links -->
+            <!-- Links (Single Page Navigation) -->
             <ul class="nav-links" style="display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0;">
                 <li><a href="index.html" style="color:inherit; text-decoration:none;">होम</a></li>
-                <li><a href="products.html" class="active" style="color:var(--primary); text-decoration:none;">उत्पादने</a></li>
-                <li><a href="#about" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
-                <li><a href="#contact" style="color:inherit; text-decoration:none;">संपर्क</a></li>
+                <li><a href="#" onclick="navigate('products-section')" class="active" style="color:var(--primary); text-decoration:none;">उत्पादने</a></li>
+                <li><a href="#" onclick="navigate('about-section')" style="color:inherit; text-decoration:none;">आमच्याबद्दल</a></li>
+                <li><a href="#" onclick="navigate('contact-section')" style="color:inherit; text-decoration:none;">संपर्क</a></li>
             </ul>
 
-            <!-- Navigation Icons -->
+            <!-- Icons -->
             <div class="nav-icons" style="display: flex; align-items: center; gap: 12px;">
                 <input type="text" id="searchInput" placeholder="शोधा..." oninput="handleSearch(this.value)" style="padding: 6px 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-size: 13px; width: 110px;">
                 <button onclick="toggleLanguage()" id="langBtn" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;">English</button>
                 <button onclick="toggleNightMode()" id="nightModeBtn" style="background: transparent; border: 1px solid var(--primary); color: var(--dark-text); padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 14px;">🌙</button>
-                <div class="cart-icon-wrapper" onclick="location.href='#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
+                <!-- कार्टवर क्लिक केल्यावर परत उत्पादने पेजवर येऊन कार्ट दिसेल -->
+                <div class="cart-icon-wrapper" onclick="navigate('products-section'); location.href='#cart'" style="cursor: pointer; position: relative; font-size: 18px;">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
@@ -40,10 +41,10 @@
         </div>
     </header>
 
-    <!-- 🌟 Main Page Layout 🌟 -->
-    <div class="container" style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+    <!-- 🌟 1. Products Section (Default Visible) 🌟 -->
+    <div id="products-section" class="container" style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 20px;">
         
-        <!-- 1. Sidebar (Categories) -->
+        <!-- Sidebar (Categories) -->
         <aside style="width: 250px; flex-shrink: 0;">
             <h3 style="margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 5px;">कॅटेगरी</h3>
             <ul style="list-style: none; padding: 0; line-height: 2.2;">
@@ -55,53 +56,52 @@
             </ul>
         </aside>
 
-        <!-- 2. Main Content (Products & Cart) -->
+        <!-- Main Products Content -->
         <main style="flex-grow: 1; max-width: calc(100% - 280px);">
             <h2 id="pageMainHeading" style="margin-bottom: 20px; font-size: 24px;">आमची सर्व उत्पादने</h2>
             
-            <!-- Products Grid Container -->
             <div id="shopProductsContainer" class="products-grid">
-                <!-- Products will be loaded dynamically via script.js -->
+                <!-- Products dynamically loaded -->
             </div>
 
             <!-- Cart Section -->
             <div id="cart" style="margin-top: 50px; background: var(--card-bg, #fff); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                 <h3 id="cartSectionTitle" style="margin-bottom: 15px;">तुमचे शॉपिंग कार्ट</h3>
-                <div id="cartItemsContainer">
-                    <p id="cartEmptyText">कार्ट रिकामे आहे.</p>
-                </div>
+                <div id="cartItemsContainer"><p id="cartEmptyText">कार्ट रिकामे आहे.</p></div>
                 <div id="cartTotalContainer" style="margin-top: 20px; font-weight: bold; font-size: 18px;">
                     <span id="totalLabel">एकूण रक्कम:</span> ₹<span id="cartTotalPrice">0</span>
                 </div>
 
-                <!-- Order Form -->
                 <form id="orderForm" style="margin-top: 25px; display: flex; flex-direction: column; gap: 15px; max-width: 500px;">
                     <h4 id="deliveryInfoHeading">डिलिव्हरी माहिती व पत्ता</h4>
-                    <input type="text" name="customer_name" placeholder="तुमचे नाव" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd; width: 100%;">
-                    <input type="tel" name="customer_phone" placeholder="१० अंकी मोबाईल नंबर" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd; width: 100%;">
-                    <textarea name="customer_address" placeholder="पत्ता पिनकोडसह" rows="3" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd; width: 100%;"></textarea>
-                    
-                    <button type="submit" id="orderSubmitBtn" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;">
-                        ऑर्डर कन्फर्म करा व पेमेंट करा
-                    </button>
+                    <input type="text" name="customer_name" placeholder="तुमचे नाव" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                    <input type="tel" name="customer_phone" placeholder="१० अंकी मोबाईल नंबर" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                    <textarea name="customer_address" placeholder="पत्ता पिनकोडसह" rows="3" required style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;"></textarea>
+                    <button type="submit" id="orderSubmitBtn" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer;">ऑर्डर कन्फर्म करा व पेमेंट करा</button>
                 </form>
             </div>
         </main>
     </div>
 
-    <!-- 🌟 Footer Sections (About & Contact) 🌟 -->
-    <div class="container" id="about" style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #eee;">
-        <h3 style="margin-bottom: 15px;">आमच्याबद्दल (About Us)</h3>
-        <p style="line-height: 1.6;">'कोकण वारसा' हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे.</p>
+    <!-- 🌟 2. About Section (Hidden initially) 🌟 -->
+    <div id="about-section" class="container" style="display: none; max-width: 800px; margin: 50px auto; padding: 30px; background: var(--card-bg, #fff); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+        <h2 style="margin-bottom: 20px; color: var(--primary);">आमच्याबद्दल (About Us)</h2>
+        <p style="line-height: 1.8; font-size: 16px; color: var(--gray-text);">
+            'कोकण वारसा' हा कोकणातील अस्सल, पारंपरिक आणि घरगुती पद्धतीने तयार केलेले पदार्थ थेट तुमच्यापर्यंत पोहोचवण्याचा एक प्रामाणिक प्रयत्न आहे.
+        </p>
     </div>
 
-    <div class="container" id="contact" style="margin-top: 40px; margin-bottom: 60px; text-align: center;">
-        <h3 style="margin-bottom: 15px;">संपर्क करा (Contact Us)</h3>
-        <p>📞 +91 9823xxxxxx</p>
-        <p>✉️ support@kokanvarsa.shop</p>
+    <!-- 🌟 3. Contact Section (Hidden initially) 🌟 -->
+    <div id="contact-section" class="container" style="display: none; max-width: 600px; margin: 50px auto; padding: 30px; background: var(--card-bg, #fff); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+        <h2 style="margin-bottom: 20px; color: var(--primary);">संपर्क करा (Contact Us)</h2>
+        <div style="margin-top: 30px; line-height: 2;">
+            <p style="font-size: 18px;"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> +91 9823xxxxxx</p>
+            <p style="font-size: 18px;"><i class="fas fa-envelope" style="color: var(--primary);"></i> support@kokanvarsa.shop</p>
+            <p style="font-size: 18px;"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> रत्नागिरी, महाराष्ट्र</p>
+        </div>
     </div>
 
-    <!-- Script File Link -->
-    <script src="script.js?v=11"></script>
+    <!-- Script Links -->
+    <script src="script.js?v=15"></script>
 </body>
 </html>
